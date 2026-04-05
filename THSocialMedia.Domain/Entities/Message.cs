@@ -1,4 +1,6 @@
-﻿namespace THSocialMedia.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace THSocialMedia.Domain.Entities
 {
     public class Message : BaseEntity
     {
@@ -7,10 +9,11 @@
 
         public Guid? ReplyMsgId { get; set; }
 
-        public Guid ConversationsId { get; set; }
-        public Guid UsersId { get; set; }
-
-        public Conversation? Conversation { get; set; }
-        public User? User { get; set; }
+        public Guid ConversationId { get; set; }
+        public Guid UserId { get; set; }
+        [JsonIgnore]
+        public Conversation Conversation { get; set; }
+        [JsonIgnore]
+        public User User { get; set; }
     }
 }

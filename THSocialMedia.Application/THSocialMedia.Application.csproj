@@ -7,8 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ardalis.Result" Version="9.1.0" />
+    <PackageReference Include="MediatR" Version="14.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.9" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\THSocialMedia.Domain\THSocialMedia.Domain.csproj" />
     <ProjectReference Include="..\THSocialMedia.Infrastructure\THSocialMedia.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UsecaseHandlers\Users\VIewModels\" />
   </ItemGroup>
 
 </Project>

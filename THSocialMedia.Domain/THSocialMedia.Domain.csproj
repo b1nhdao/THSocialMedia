@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Entities\MessageAggregate\**" />
+    <EmbeddedResource Remove="Entities\MessageAggregate\**" />
+    <None Remove="Entities\MessageAggregate\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.14" />
+  </ItemGroup>
+
 </Project>

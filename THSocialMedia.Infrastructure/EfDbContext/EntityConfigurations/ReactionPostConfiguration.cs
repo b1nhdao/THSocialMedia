@@ -8,7 +8,7 @@ namespace THSocialMedia.Infrastructure.EfDbContext.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<ReactionPost> builder)
         {
-            builder.HasKey(rp => new { rp.PostsId, rp.UserId });
+            builder.HasKey(rp => new { rp.PostId, rp.UserId });
         }
     }
 }

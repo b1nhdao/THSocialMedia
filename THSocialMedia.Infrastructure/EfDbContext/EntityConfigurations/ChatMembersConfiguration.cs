@@ -8,7 +8,7 @@ namespace THSocialMedia.Infrastructure.EfDbContext.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<ChatMember> builder)
         {
-            builder.HasKey(cm => new { cm.UsersId, cm.ConversationsId });
+            builder.HasKey(cm => new { cm.UserId, cm.ConversationId });
         }
     }
 }

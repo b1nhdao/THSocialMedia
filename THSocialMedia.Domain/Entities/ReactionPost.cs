@@ -1,12 +1,19 @@
-﻿namespace THSocialMedia.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace THSocialMedia.Domain.Entities
 {
     public class ReactionPost
     {
-        public Guid ReactionsId { get; set; }
-        public Guid PostsId { get; set; }
+        public Guid ReactionId { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public Guid PostId { get; set; }
         public Guid UserId { get; set; }
-        public User? User { get; set; }
-        public Reaction? Reaction { get; set; }
-        public Post? Post { get; set; }
+
+        [JsonIgnore]
+        public User User { get; set; } = new User();
+        [JsonIgnore]
+        public Reaction Reaction { get; set; } = new Reaction();
+        [JsonIgnore]
+        public Post Post { get; set; } = new Post();
     }
 }

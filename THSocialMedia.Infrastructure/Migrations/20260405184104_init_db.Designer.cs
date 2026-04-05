@@ -12,8 +12,8 @@ using THSocialMedia.Infrastructure.EfDbContext;
 namespace THSocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    [Migration("20260404152350_db_init")]
-    partial class db_init
+    [Migration("20260405184104_init_db")]
+    partial class init_db
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,23 +27,15 @@ namespace THSocialMedia.Infrastructure.Migrations
 
             modelBuilder.Entity("THSocialMedia.Domain.Entities.ChatMember", b =>
                 {
-                    b.Property<Guid>("UsersId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ConversationsId")
+                    b.Property<Guid>("ConversationId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ConversationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("UsersId", "ConversationsId");
+                    b.HasKey("UserId", "ConversationId");
 
                     b.HasIndex("ConversationId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ChatMembers");
                 });
@@ -61,20 +53,20 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("FileUrl")
-                        .HasColumnType("integer");
+                    b.Property<string>("FileUrl")
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid?>("PostId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("PostsId")
+                    b.Property<Guid>("PostId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -119,10 +111,7 @@ namespace THSocialMedia.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ConversationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ConversationsId")
+                    b.Property<Guid>("ConversationId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -140,10 +129,7 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UsersId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -177,10 +163,7 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UsersId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Visibility")
@@ -191,29 +174,6 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("THSocialMedia.Domain.Entities.PostReport", b =>
-                {
-                    b.Property<Guid>("ReportsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("PostsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("PostId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("ReportId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("ReportsId", "PostsId");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("ReportId");
-
-                    b.ToTable("PostReports");
                 });
 
             modelBuilder.Entity("THSocialMedia.Domain.Entities.Reaction", b =>
@@ -241,28 +201,80 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Reactions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000001"),
+                            CreatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            Name = "Like",
+                            Type = 1,
+                            UpdatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000002"),
+                            CreatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            Name = "Love",
+                            Type = 2,
+                            UpdatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000003"),
+                            CreatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            Name = "Angry",
+                            Type = 3,
+                            UpdatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000004"),
+                            CreatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            Name = "Sad",
+                            Type = 4,
+                            UpdatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000005"),
+                            CreatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            Name = "Wow",
+                            Type = 5,
+                            UpdatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000006"),
+                            CreatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            Name = "Haha",
+                            Type = 6,
+                            UpdatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("THSocialMedia.Domain.Entities.ReactionPost", b =>
                 {
-                    b.Property<Guid>("PostsId")
+                    b.Property<Guid>("PostId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("PostId")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ReactionId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ReactionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ReactionsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("PostsId", "UserId");
-
-                    b.HasIndex("PostId");
+                    b.HasKey("PostId", "UserId");
 
                     b.HasIndex("ReactionId");
 
@@ -287,79 +299,6 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.ToTable("Relationships");
                 });
 
-            modelBuilder.Entity("THSocialMedia.Domain.Entities.Report", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Reason")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Reports");
-                });
-
-            modelBuilder.Entity("THSocialMedia.Domain.Entities.ReportComment", b =>
-                {
-                    b.Property<Guid>("ReportsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CommentsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("CommentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("ReportId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("ReportsId", "CommentsId");
-
-                    b.HasIndex("CommentId");
-
-                    b.HasIndex("ReportId");
-
-                    b.ToTable("ReportComments");
-                });
-
-            modelBuilder.Entity("THSocialMedia.Domain.Entities.ReportUser", b =>
-                {
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ReportsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("ReportId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("UsersId", "ReportsId");
-
-                    b.HasIndex("ReportId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ReportUsers");
-                });
-
             modelBuilder.Entity("THSocialMedia.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -369,10 +308,18 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.Property<string>("AvatarUrl")
                         .HasColumnType("text");
 
+                    b.Property<string>("Bio")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -399,17 +346,38 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0000-000000000001"),
+                            AvatarUrl = "",
+                            Bio = "Tôi là admin",
+                            CreatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc),
+                            Email = "admin@gmail.com",
+                            FullName = "Nguyễn Admin",
+                            IsActive = true,
+                            IsDeleted = false,
+                            PasswordHash = "",
+                            Status = 0,
+                            UpdatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc),
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("THSocialMedia.Domain.Entities.ChatMember", b =>
                 {
                     b.HasOne("THSocialMedia.Domain.Entities.Conversation", "Conversation")
                         .WithMany("Members")
-                        .HasForeignKey("ConversationId");
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("THSocialMedia.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Conversation");
 
@@ -420,7 +388,9 @@ namespace THSocialMedia.Infrastructure.Migrations
                 {
                     b.HasOne("THSocialMedia.Domain.Entities.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Post");
                 });
@@ -429,11 +399,15 @@ namespace THSocialMedia.Infrastructure.Migrations
                 {
                     b.HasOne("THSocialMedia.Domain.Entities.Conversation", "Conversation")
                         .WithMany("Messages")
-                        .HasForeignKey("ConversationId");
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("THSocialMedia.Domain.Entities.User", "User")
                         .WithMany("Messages")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Conversation");
 
@@ -444,35 +418,26 @@ namespace THSocialMedia.Infrastructure.Migrations
                 {
                     b.HasOne("THSocialMedia.Domain.Entities.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("THSocialMedia.Domain.Entities.PostReport", b =>
-                {
-                    b.HasOne("THSocialMedia.Domain.Entities.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId");
-
-                    b.HasOne("THSocialMedia.Domain.Entities.Report", "Report")
-                        .WithMany()
-                        .HasForeignKey("ReportId");
-
-                    b.Navigation("Post");
-
-                    b.Navigation("Report");
                 });
 
             modelBuilder.Entity("THSocialMedia.Domain.Entities.ReactionPost", b =>
                 {
                     b.HasOne("THSocialMedia.Domain.Entities.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId");
+                        .WithMany("Reactions")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("THSocialMedia.Domain.Entities.Reaction", "Reaction")
                         .WithMany()
-                        .HasForeignKey("ReactionId");
+                        .HasForeignKey("ReactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("THSocialMedia.Domain.Entities.User", "User")
                         .WithMany()
@@ -487,36 +452,6 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("THSocialMedia.Domain.Entities.ReportComment", b =>
-                {
-                    b.HasOne("THSocialMedia.Domain.Entities.Comment", "Comment")
-                        .WithMany()
-                        .HasForeignKey("CommentId");
-
-                    b.HasOne("THSocialMedia.Domain.Entities.Report", "Report")
-                        .WithMany()
-                        .HasForeignKey("ReportId");
-
-                    b.Navigation("Comment");
-
-                    b.Navigation("Report");
-                });
-
-            modelBuilder.Entity("THSocialMedia.Domain.Entities.ReportUser", b =>
-                {
-                    b.HasOne("THSocialMedia.Domain.Entities.Report", "Report")
-                        .WithMany()
-                        .HasForeignKey("ReportId");
-
-                    b.HasOne("THSocialMedia.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Report");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("THSocialMedia.Domain.Entities.Conversation", b =>
                 {
                     b.Navigation("Members");
@@ -527,6 +462,8 @@ namespace THSocialMedia.Infrastructure.Migrations
             modelBuilder.Entity("THSocialMedia.Domain.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Reactions");
                 });
 
             modelBuilder.Entity("THSocialMedia.Domain.Entities.User", b =>
