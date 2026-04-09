@@ -27,6 +27,13 @@ namespace THSocialMedia.Api
                 .AddApplicationServices()
                 .AddInfrastructureServices(builder.Configuration);
 
+            builder.Services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = builder.Configuration.GetConnectionString("Redis");
+                options.InstanceName = "ThSocial";
+            });
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

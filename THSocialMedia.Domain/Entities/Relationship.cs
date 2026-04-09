@@ -1,6 +1,6 @@
 ﻿namespace THSocialMedia.Domain.Entities
 {
-    public class Relationship
+    public class Relationship : BaseEntity
     {
         public Guid ReceiverId { get; set; }
         public Guid SenderId { get; set; }
