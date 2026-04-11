@@ -1,5 +1,3 @@
-using Ardalis.Result;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using THSocialMedia.Application.Services.AuthService;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Queries;

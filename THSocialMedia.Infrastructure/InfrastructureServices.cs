@@ -6,6 +6,7 @@ using THSocialMedia.Domain.Abstractions;
 using THSocialMedia.Domain.Abstractions.IRepositories;
 using THSocialMedia.Infrastructure.EfDbContext;
 using THSocialMedia.Infrastructure.EfDbContext.WriteRepositoies;
+using THSocialMedia.Infrastructure.Services.Jwt;
 using THSocialMedia.Infrastructure.Services.RedisCache;
 
 namespace THSocialMedia.Infrastructure
@@ -33,6 +34,14 @@ namespace THSocialMedia.Infrastructure
             services.AddScoped<IRelationshipRepository, RelationshipRepository>();
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<WriteDbContext>());
             services.AddScoped<ICacheService, CacheService>();
+
+            services.AddSingleton(sp =>
+            {
+                var opts = new JwtOptions();
+                _configuration.GetSection(JwtOptions.SectionName).Bind(opts);
+                return Microsoft.Extensions.Options.Options.Create(opts);
+            });
+            services.AddSingleton<IJwtTokenProvider, JwtTokenProvider>();
 
             return services;
         }

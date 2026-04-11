@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using THSocialMedia.Infrastructure.EfDbContext;
@@ -11,9 +12,11 @@ using THSocialMedia.Infrastructure.EfDbContext;
 namespace THSocialMedia.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    partial class WriteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260410020158_alter_relationship")]
+    partial class alter_relationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -311,18 +314,6 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Relationships");
-
-                    b.HasData(
-                        new
-                        {
-                            ReceiverId = new Guid("00000000-0000-0000-0000-000000000001"),
-                            SenderId = new Guid("00000000-0000-0000-0000-000000000002"),
-                            CreatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc),
-                            Id = new Guid("00000000-0000-0000-0000-000000000001"),
-                            IsDeleted = false,
-                            Status = 1,
-                            UpdatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("THSocialMedia.Domain.Entities.User", b =>
@@ -388,21 +379,6 @@ namespace THSocialMedia.Infrastructure.Migrations
                             Status = 0,
                             UpdatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc),
                             Username = "admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("00000000-0000-0000-0000-000000000002"),
-                            AvatarUrl = "",
-                            Bio = "Tôi bạn là admin",
-                            CreatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "banadmin@gmail.com",
-                            FullName = "Nguyễn Bạn Admin",
-                            IsActive = true,
-                            IsDeleted = false,
-                            PasswordHash = "",
-                            Status = 0,
-                            UpdatedAt = new DateTime(2026, 4, 5, 17, 0, 0, 0, DateTimeKind.Utc),
-                            Username = "banadmin"
                         });
                 });
 

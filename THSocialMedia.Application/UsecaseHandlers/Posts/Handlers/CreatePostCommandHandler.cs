@@ -1,5 +1,6 @@
 ﻿using Ardalis.Result;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using THSocialMedia.Application.Services.AuthService;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Commands;
 using THSocialMedia.Domain.Abstractions;
@@ -13,6 +14,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
     {
         private readonly IPostRepository _postRepository;
         private readonly IRelationshipRepository _relationshipRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IIdentityService _identityService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICacheService _cacheService;
@@ -20,12 +22,14 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
         public CreatePostCommandHandler(
             IPostRepository postRepository,
             IRelationshipRepository relationshipRepository,
+            IUserRepository userRepository,
             IIdentityService identityService,
             IUnitOfWork unitOfWork,
             ICacheService cacheService)
         {
             _postRepository = postRepository;
             _relationshipRepository = relationshipRepository;
+            _userRepository = userRepository;
             _identityService = identityService;
             _unitOfWork = unitOfWork;
             _cacheService = cacheService;
@@ -46,7 +50,13 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             _postRepository.Add(post);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+            var user = await _userRepository.GetFirstOrDefault(x => x.Id == userId, include: x => x.Include(x => x.Relationships));
             // Followers of author -> replaced by relationship connections (2-way)
+            var connectionFollowed = user.Relationships.Where(r => r.SenderId == userId).Select(r => r.ReceiverId)
+                .Union(user.Relationships.Where(r => r.ReceiverId == userId).Select(r => r.SenderId))
+                .Distinct()
+                .ToList();
+
             var connectedUserIds = await _relationshipRepository.GetConnectedUserIdsAsync(userId, status: null, cancellationToken);
 
             // Fan-out on write: push post into connected users' timelines and invalidate their read-cache feeds.
