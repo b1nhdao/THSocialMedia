@@ -48,6 +48,14 @@ namespace THSocialMedia.Api
                 }});
             });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin()
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod());
+            });
+
             builder.Services
                 .AddHttpContextAccessor()
                 .AddApplicationServices()
@@ -91,6 +99,10 @@ namespace THSocialMedia.Api
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
+
+
+
+            app.UseCors("AllowAllOrigins");
             app.UseAuthorization();
 
 
