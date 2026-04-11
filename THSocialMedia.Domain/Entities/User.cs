@@ -18,5 +18,12 @@ namespace THSocialMedia.Domain.Entities
         public ICollection<Post> Posts { get; set; } = [];
         [JsonIgnore]
         public ICollection<Message> Messages { get; set; } = [];
+        [JsonIgnore]
+        public ICollection<Relationship> Relationships { get; set; } = [];
+
+        public void AddRelationShip(Relationship relationship)
+        {
+            Relationships.Add(relationship);
+        }
     }
 }

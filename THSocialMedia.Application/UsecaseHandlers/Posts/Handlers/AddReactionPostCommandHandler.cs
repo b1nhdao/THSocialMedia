@@ -6,6 +6,7 @@ using THSocialMedia.Application.UsecaseHandlers.Posts.Commands;
 using THSocialMedia.Domain.Abstractions;
 using THSocialMedia.Domain.Abstractions.IRepositories;
 using THSocialMedia.Domain.Entities;
+using THSocialMedia.Infrastructure.Services.RedisCache;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {
@@ -38,7 +39,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             _postRepository.Update(post);
             await _unitOfWork.SaveChangesAsync();
 
-            return Result.Success(reaction.ReactionId); 
+            return Result.Success(reaction.ReactionId);
         }
     }
 }

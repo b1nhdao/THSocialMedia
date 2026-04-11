@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="UsecaseHandlers\Auths\Queries\" />
     <Folder Include="UsecaseHandlers\Users\VIewModels\" />
   </ItemGroup>
 

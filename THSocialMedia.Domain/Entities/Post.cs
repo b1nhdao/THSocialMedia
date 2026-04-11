@@ -12,10 +12,10 @@ namespace THSocialMedia.Domain.Entities
         [JsonIgnore]
         public List<ReactionPost> Reactions { get; set; } = new List<ReactionPost>();
         [JsonIgnore]
-        public User User { get; set; } = new User();
+        public User User { get; set; }
         [JsonIgnore]
         public List<Comment> Comments { get; set; } = new List<Comment>();
-        
+
         public void AddComment(Comment comment)
         {
             Comments.Add(comment);
