@@ -51,7 +51,6 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             var user = await _userRepository.GetFirstOrDefault(x => x.Id == userId, include: x => x.Include(x => x.Relationships));
-            // Followers of author -> replaced by relationship connections (2-way)
             var connectionFollowed = user.Relationships.Where(r => r.SenderId == userId).Select(r => r.ReceiverId)
                 .Union(user.Relationships.Where(r => r.ReceiverId == userId).Select(r => r.SenderId))
                 .Distinct()
@@ -59,7 +58,6 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 
             var connectedUserIds = await _relationshipRepository.GetConnectedUserIdsAsync(userId, status: null, cancellationToken);
 
-            // Fan-out on write: push post into connected users' timelines and invalidate their read-cache feeds.
             await _cacheService.FanOutOnWriteAsync(
                 entityKeyPrefix: "post",
                 timelineKeyPrefix: "timeline",

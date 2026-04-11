@@ -7,7 +7,6 @@
         object RemoveDate(string key);
         bool RemoveKeysByPrefix(string prefix);
 
-        // Generic fan-out helpers (sorted-set based)
         Task FanOutOnWriteAsync<T>(
             string entityKeyPrefix,
             string timelineKeyPrefix,

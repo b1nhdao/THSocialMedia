@@ -77,10 +77,6 @@ namespace THSocialMedia.Infrastructure.Services.RedisCache
             return false;
         }
 
-        // ----------------------
-        // Generic fan-out caching
-        // ----------------------
-
         private static string EntityKey(string entityKeyPrefix, Guid entityId) => $"{entityKeyPrefix}:{entityId:N}";
         private static string TimelineKey(string timelineKeyPrefix, Guid userId) => $"{timelineKeyPrefix}:{userId:N}";
         private static string ReadCacheKey(string readCacheKeyPrefix, Guid userId) => $"{readCacheKeyPrefix}:{userId:N}";
@@ -104,13 +100,11 @@ namespace THSocialMedia.Infrastructure.Services.RedisCache
             if (entityId == Guid.Empty)
                 throw new ArgumentException("Entity id cannot be empty.", nameof(getEntityId));
 
-            // Store entity payload
             await _cacheDb.StringSetAsync(
                 EntityKey(entityKeyPrefix, entityId),
                 JsonSerializer.Serialize(entity, _jsonOptions),
                 expiry: (Expiration)ttl);
 
-            // Fan-out by adding entityId to recipient timelines
             var targets = (recipientIds ?? Array.Empty<Guid>()).Distinct().ToList();
             if (includeActor && !targets.Contains(actorId))
                 targets.Add(actorId);

@@ -25,8 +25,6 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
         {
             var userId = _identityService.GetUserIdentity();
 
-            // Fan-out on read: cache a per-user feed on first read. On next reads, serve from cache.
-            // NOTE: fetchFromSource should be replaced by your real newsfeed query (e.g., posts from followings).
             var cachedPosts = await _cacheService.GetTimelineFanOutOnReadAsync<Post>(
                 entityKeyPrefix: "post",
                 timelineKeyPrefix: "timeline",
