@@ -20,7 +20,8 @@ namespace THSocialMedia.Infrastructure.EfDbContext.EntityConfigurations
                     IsActive = true,
                     Username = "admin",
                     CreatedAt = DateTime.Parse("2026-04-06T00:00:00").ToUniversalTime(),
-                    UpdatedAt = DateTime.Parse("2026-04-06T00:00:00").ToUniversalTime()
+                    UpdatedAt = DateTime.Parse("2026-04-06T00:00:00").ToUniversalTime(),
+                    PasswordHash = "1234",
                 },
                 new User
                 {
@@ -32,8 +33,8 @@ namespace THSocialMedia.Infrastructure.EfDbContext.EntityConfigurations
                     IsActive = true,
                     Username = "banadmin",
                     CreatedAt = DateTime.Parse("2026-04-06T00:00:00").ToUniversalTime(),
-                    UpdatedAt = DateTime.Parse("2026-04-06T00:00:00").ToUniversalTime()
-
+                    UpdatedAt = DateTime.Parse("2026-04-06T00:00:00").ToUniversalTime(),
+                    PasswordHash = "1234",
                 });
         }
     }
