@@ -27,6 +27,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Users.Handlers
                 FullName = request.FullName,
                 AvatarUrl = request.AvatarUrl,
                 Bio = request.Bio,
+                PasswordHash = request.Password,
             };
 
             _userRepository.Add(user);

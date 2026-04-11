@@ -1,5 +1,7 @@
 using Ardalis.Result;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using THSocialMedia.Application.UsecaseHandlers.Posts.ViewModels;
 using THSocialMedia.Application.UsecaseHandlers.Users.Queries;
 using THSocialMedia.Application.UsecaseHandlers.Users.ViewModels;
 using THSocialMedia.Domain.Abstractions.IRepositories;
@@ -17,7 +19,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Users.Handlers
 
         public async Task<Result<UserViewModel>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetByIdAsync(request.Id);
+            var user = await _userRepository.GetFirstOrDefault(x => x.Id == request.Id, include: x => x.Include(x => x.Posts));
 
             if (user == null)
                 return Result<UserViewModel>.NotFound();

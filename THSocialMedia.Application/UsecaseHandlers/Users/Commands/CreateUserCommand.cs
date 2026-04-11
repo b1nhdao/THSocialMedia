@@ -10,5 +10,6 @@ namespace THSocialMedia.Application.UsecaseHandlers.Users.Commands
         public string? FullName { get; set; }
         public string? AvatarUrl { get; set; }
         public string? Bio { get; set; }
+        public string Password { get; set; } = string.Empty;
     }
 }

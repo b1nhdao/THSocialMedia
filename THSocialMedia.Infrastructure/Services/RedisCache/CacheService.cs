@@ -24,28 +24,52 @@ namespace THSocialMedia.Infrastructure.Services.RedisCache
 
         public T GetData<T>(string key)
         {
-            var value = _cacheDb.StringGet(key);
-            if (!string.IsNullOrEmpty(value))
+            try
             {
-                return JsonSerializer.Deserialize<T>(value!, _jsonOptions)!;
+                var value = _cacheDb.StringGet(key);
+                if (!string.IsNullOrEmpty(value))
+                {
+                    return JsonSerializer.Deserialize<T>(value!, _jsonOptions)!;
+                }
+                return default!;
             }
-            return default!;
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Cache operation failed while getting data for key: {Key}. Returning default value.", key);
+                return default!;
+            }
         }
 
         public bool SetData<T>(string key, T value, DateTimeOffset exprirationTime)
         {
-            var expriTime = exprirationTime - DateTimeOffset.UtcNow;
-            var isSEt = _cacheDb.StringSet(key, JsonSerializer.Serialize(value, _jsonOptions), expriTime);
-            return isSEt;
+            try
+            {
+                var expriTime = exprirationTime - DateTimeOffset.UtcNow;
+                var isSEt = _cacheDb.StringSet(key, JsonSerializer.Serialize(value, _jsonOptions), expriTime);
+                return isSEt;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Cache operation failed while setting data for key: {Key}. Operation skipped.", key);
+                return false;
+            }
         }
 
         public object RemoveDate(string key)
         {
-            var _exist = _cacheDb.KeyExists(key);
-            if (_exist)
-                return _cacheDb.KeyDelete(key);
+            try
+            {
+                var _exist = _cacheDb.KeyExists(key);
+                if (_exist)
+                    return _cacheDb.KeyDelete(key);
 
-            return false;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Cache operation failed while removing data for key: {Key}. Operation skipped.", key);
+                return false;
+            }
         }
 
         public bool RemoveKeysByPrefix(string prefix)
@@ -68,10 +92,10 @@ namespace THSocialMedia.Infrastructure.Services.RedisCache
                     _cacheDb.KeyDelete(keys);
                     return true;
                 }
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogWarning(ex, "Cache operation failed while removing keys with prefix: {Prefix}. Operation skipped.", prefix);
             }
 
             return false;
@@ -94,36 +118,43 @@ namespace THSocialMedia.Infrastructure.Services.RedisCache
             bool includeActor = true,
             bool invalidateReadCache = true)
         {
-            var ttl = entityTtl ?? TimeSpan.FromHours(6);
-
-            var entityId = getEntityId(entity);
-            if (entityId == Guid.Empty)
-                throw new ArgumentException("Entity id cannot be empty.", nameof(getEntityId));
-
-            await _cacheDb.StringSetAsync(
-                EntityKey(entityKeyPrefix, entityId),
-                JsonSerializer.Serialize(entity, _jsonOptions),
-                expiry: (Expiration)ttl);
-
-            var targets = (recipientIds ?? Array.Empty<Guid>()).Distinct().ToList();
-            if (includeActor && !targets.Contains(actorId))
-                targets.Add(actorId);
-
-            var score = getScoreTime(entity).ToUnixTimeMilliseconds();
-
-            var batch = _cacheDb.CreateBatch();
-            var tasks = new List<Task>(capacity: targets.Count * (invalidateReadCache ? 2 : 1));
-
-            foreach (var userId in targets)
+            try
             {
-                tasks.Add(batch.SortedSetAddAsync(TimelineKey(timelineKeyPrefix, userId), entityId.ToString("N"), score));
+                var ttl = entityTtl ?? TimeSpan.FromHours(6);
 
-                if (invalidateReadCache)
-                    tasks.Add(batch.KeyDeleteAsync(ReadCacheKey(readCacheKeyPrefix, userId)));
+                var entityId = getEntityId(entity);
+                if (entityId == Guid.Empty)
+                    throw new ArgumentException("Entity id cannot be empty.", nameof(getEntityId));
+
+                await _cacheDb.StringSetAsync(
+                    EntityKey(entityKeyPrefix, entityId),
+                    JsonSerializer.Serialize(entity, _jsonOptions),
+                    expiry: (Expiration)ttl);
+
+                var targets = (recipientIds ?? Array.Empty<Guid>()).Distinct().ToList();
+                if (includeActor && !targets.Contains(actorId))
+                    targets.Add(actorId);
+
+                var score = getScoreTime(entity).ToUnixTimeMilliseconds();
+
+                var batch = _cacheDb.CreateBatch();
+                var tasks = new List<Task>(capacity: targets.Count * (invalidateReadCache ? 2 : 1));
+
+                foreach (var userId in targets)
+                {
+                    tasks.Add(batch.SortedSetAddAsync(TimelineKey(timelineKeyPrefix, userId), entityId.ToString("N"), score));
+
+                    if (invalidateReadCache)
+                        tasks.Add(batch.KeyDeleteAsync(ReadCacheKey(readCacheKeyPrefix, userId)));
+                }
+
+                batch.Execute();
+                await Task.WhenAll(tasks);
             }
-
-            batch.Execute();
-            await Task.WhenAll(tasks);
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Cache operation failed during FanOutOnWrite. Continuing without cache invalidation.");
+            }
         }
 
         public async Task<IReadOnlyList<T>> GetTimelineFanOutOnWriteAsync<T>(
@@ -132,25 +163,33 @@ namespace THSocialMedia.Infrastructure.Services.RedisCache
             Guid userId,
             int take = 50)
         {
-            var ids = await _cacheDb.SortedSetRangeByRankAsync(TimelineKey(timelineKeyPrefix, userId), 0, take - 1, Order.Descending);
-            if (ids.Length == 0)
-                return [];
-
-            var keys = ids
-                .Select(v => (RedisKey)EntityKey(entityKeyPrefix, Guid.ParseExact(v!, "N")))
-                .ToArray();
-
-            var values = await _cacheDb.StringGetAsync(keys);
-
-            var result = new List<T>(values.Length);
-            foreach (var val in values)
+            try
             {
-                if (val.IsNullOrEmpty) continue;
-                var obj = JsonSerializer.Deserialize<T>(val!, _jsonOptions);
-                if (obj is not null) result.Add(obj);
-            }
+                var ids = await _cacheDb.SortedSetRangeByRankAsync(TimelineKey(timelineKeyPrefix, userId), 0, take - 1, Order.Descending);
+                if (ids.Length == 0)
+                    return [];
 
-            return result;
+                var keys = ids
+                    .Select(v => (RedisKey)EntityKey(entityKeyPrefix, Guid.ParseExact(v!, "N")))
+                    .ToArray();
+
+                var values = await _cacheDb.StringGetAsync(keys);
+
+                var result = new List<T>(values.Length);
+                foreach (var val in values)
+                {
+                    if (val.IsNullOrEmpty) continue;
+                    var obj = JsonSerializer.Deserialize<T>(val!, _jsonOptions);
+                    if (obj is not null) result.Add(obj);
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Cache operation failed during GetTimelineFanOutOnWrite. Returning empty collection.");
+                return [];
+            }
         }
 
         public async Task<IReadOnlyList<T>> GetTimelineFanOutOnReadAsync<T>(
@@ -165,38 +204,46 @@ namespace THSocialMedia.Infrastructure.Services.RedisCache
             TimeSpan? readCacheTtl = null,
             TimeSpan? entityTtl = null)
         {
-            var effectiveReadTtl = readCacheTtl ?? TimeSpan.FromMinutes(2);
-            var effectiveEntityTtl = entityTtl ?? TimeSpan.FromHours(6);
-
-            // 1) read-cache hit
-            var cached = await _cacheDb.StringGetAsync(ReadCacheKey(readCacheKeyPrefix, userId));
-            if (!cached.IsNullOrEmpty)
+            try
             {
-                var des = JsonSerializer.Deserialize<List<T>>(cached!, _jsonOptions);
-                return des ?? [];
+                var effectiveReadTtl = readCacheTtl ?? TimeSpan.FromMinutes(2);
+                var effectiveEntityTtl = entityTtl ?? TimeSpan.FromHours(6);
+
+                // 1) read-cache hit
+                var cached = await _cacheDb.StringGetAsync(ReadCacheKey(readCacheKeyPrefix, userId));
+                if (!cached.IsNullOrEmpty)
+                {
+                    var des = JsonSerializer.Deserialize<List<T>>(cached!, _jsonOptions);
+                    return des ?? [];
+                }
+
+                // 2) miss -> fetch, cache list + per-entity payload + index
+                var entities = (await fetchFromSource()).Take(take).ToList();
+
+                var batch = _cacheDb.CreateBatch();
+                var tasks = new List<Task>(capacity: entities.Count * 2 + 1);
+
+                tasks.Add(batch.StringSetAsync(ReadCacheKey(readCacheKeyPrefix, userId), JsonSerializer.Serialize(entities, _jsonOptions), expiry: (Expiration)effectiveReadTtl));
+
+                foreach (var e in entities)
+                {
+                    var entityId = getEntityId(e);
+                    if (entityId == Guid.Empty) continue;
+
+                    tasks.Add(batch.StringSetAsync(EntityKey(entityKeyPrefix, entityId), JsonSerializer.Serialize(e, _jsonOptions), expiry: (Expiration)effectiveEntityTtl));
+                    tasks.Add(batch.SortedSetAddAsync(TimelineKey(timelineKeyPrefix, userId), entityId.ToString("N"), getScoreTime(e).ToUnixTimeMilliseconds()));
+                }
+
+                batch.Execute();
+                await Task.WhenAll(tasks);
+
+                return entities;
             }
-
-            // 2) miss -> fetch, cache list + per-entity payload + index
-            var entities = (await fetchFromSource()).Take(take).ToList();
-
-            var batch = _cacheDb.CreateBatch();
-            var tasks = new List<Task>(capacity: entities.Count * 2 + 1);
-
-            tasks.Add(batch.StringSetAsync(ReadCacheKey(readCacheKeyPrefix, userId), JsonSerializer.Serialize(entities, _jsonOptions), expiry: (Expiration)effectiveReadTtl));
-
-            foreach (var e in entities)
+            catch (Exception ex)
             {
-                var entityId = getEntityId(e);
-                if (entityId == Guid.Empty) continue;
-
-                tasks.Add(batch.StringSetAsync(EntityKey(entityKeyPrefix, entityId), JsonSerializer.Serialize(e, _jsonOptions), expiry: (Expiration)effectiveEntityTtl));
-                tasks.Add(batch.SortedSetAddAsync(TimelineKey(timelineKeyPrefix, userId), entityId.ToString("N"), getScoreTime(e).ToUnixTimeMilliseconds()));
+                _logger.LogWarning(ex, "Cache operation failed during GetTimelineFanOutOnRead. Falling back to direct source fetch.");
+                return (await fetchFromSource()).Take(take).ToList();
             }
-
-            batch.Execute();
-            await Task.WhenAll(tasks);
-
-            return entities;
         }
     }
 }

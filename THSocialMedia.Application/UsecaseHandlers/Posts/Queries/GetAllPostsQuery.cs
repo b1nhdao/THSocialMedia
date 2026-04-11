@@ -6,5 +6,6 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Queries
 {
     public class GetAllPostsQuery : IRequest<Result<IEnumerable<PostViewModel>>>
     {
+        public Guid? UserId { get; set; }
     }
 }

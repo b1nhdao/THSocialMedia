@@ -1,6 +1,7 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using THSocialMedia.Application.Services.AuthService;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Commands;
 using THSocialMedia.Domain.Abstractions;
@@ -18,6 +19,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
         private readonly IIdentityService _identityService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICacheService _cacheService;
+        private readonly ILogger<CreatePostCommandHandler> _logger;
 
         public CreatePostCommandHandler(
             IPostRepository postRepository,
@@ -25,7 +27,8 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             IUserRepository userRepository,
             IIdentityService identityService,
             IUnitOfWork unitOfWork,
-            ICacheService cacheService)
+            ICacheService cacheService,
+            ILogger<CreatePostCommandHandler> logger)
         {
             _postRepository = postRepository;
             _relationshipRepository = relationshipRepository;
@@ -33,6 +36,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             _identityService = identityService;
             _unitOfWork = unitOfWork;
             _cacheService = cacheService;
+            _logger = logger;
         }
 
         public async Task<Result<Guid>> Handle(CreatePostCommand request, CancellationToken cancellationToken)
@@ -51,25 +55,27 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             var user = await _userRepository.GetFirstOrDefault(x => x.Id == userId, include: x => x.Include(x => x.Relationships));
-            var connectionFollowed = user.Relationships.Where(r => r.SenderId == userId).Select(r => r.ReceiverId)
-                .Union(user.Relationships.Where(r => r.ReceiverId == userId).Select(r => r.SenderId))
-                .Distinct()
-                .ToList();
-
             var connectedUserIds = await _relationshipRepository.GetConnectedUserIdsAsync(userId, status: null, cancellationToken);
 
-            await _cacheService.FanOutOnWriteAsync(
-                entityKeyPrefix: "post",
-                timelineKeyPrefix: "timeline",
-                readCacheKeyPrefix: "feed",
-                actorId: userId,
-                entity: post,
-                getEntityId: p => p.Id,
-                getScoreTime: p => new DateTimeOffset(p.CreatedAt, TimeSpan.Zero),
-                recipientIds: connectedUserIds,
-                entityTtl: TimeSpan.FromHours(6),
-                includeActor: true,
-                invalidateReadCache: true);
+            try
+            {
+                await _cacheService.FanOutOnWriteAsync(
+                    entityKeyPrefix: "post",
+                    timelineKeyPrefix: "timeline",
+                    readCacheKeyPrefix: "feed",
+                    actorId: userId,
+                    entity: post,
+                    getEntityId: p => p.Id,
+                    getScoreTime: p => new DateTimeOffset(p.CreatedAt, TimeSpan.Zero),
+                    recipientIds: connectedUserIds,
+                    entityTtl: TimeSpan.FromHours(6),
+                    includeActor: true,
+                    invalidateReadCache: true);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to update cache for new post {PostId}. Post created successfully but cache may be inconsistent.", post.Id);
+            }
 
             return Result<Guid>.Success(post.Id);
         }

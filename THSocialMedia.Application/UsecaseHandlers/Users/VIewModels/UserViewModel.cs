@@ -1,3 +1,5 @@
+using THSocialMedia.Application.UsecaseHandlers.Posts.ViewModels;
+
 namespace THSocialMedia.Application.UsecaseHandlers.Users.ViewModels
 {
     public class UserViewModel

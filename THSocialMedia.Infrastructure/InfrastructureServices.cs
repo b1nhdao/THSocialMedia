@@ -24,8 +24,14 @@ namespace THSocialMedia.Infrastructure
 
             services.AddSingleton<IConnectionMultiplexer>(sp =>
             {
-                var options = ConfigurationOptions.Parse(_configuration.GetConnectionString("Redis"));
-                return ConnectionMultiplexer.Connect(options);
+                var config = ConfigurationOptions.Parse(
+                    _configuration.GetConnectionString("Redis")
+                );
+
+                config.AbortOnConnectFail = false;
+                config.ConnectTimeout = 500;
+                config.SyncTimeout = 500;
+                return ConnectionMultiplexer.Connect(config);
             });
 
             services.AddScoped<IPostRepository, PostRepository>();
