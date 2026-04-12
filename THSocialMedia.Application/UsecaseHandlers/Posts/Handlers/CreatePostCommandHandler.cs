@@ -54,7 +54,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             _postRepository.Add(post);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var user = await _userRepository.GetFirstOrDefault(x => x.Id == userId, include: x => x.Include(x => x.Relationships));
+            var user = await _userRepository.GetFirstOrDefault(x => x.Id == userId);
             var connectedUserIds = await _relationshipRepository.GetConnectedUserIdsAsync(userId, status: null, cancellationToken);
 
             try

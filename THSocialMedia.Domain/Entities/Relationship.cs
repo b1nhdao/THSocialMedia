@@ -10,6 +10,17 @@
         /// </summary>
         public int Status { get; set; }
 
+        public Relationship(Guid receiverId, Guid senderId, int status)
+        {
+            ReceiverId = receiverId;
+            SenderId = senderId;
+            Status = status;
+        }
+
+        public Relationship()
+        {
+        }
+
         public void UpdateStatus(int newStatus)
         {
             Status = newStatus;

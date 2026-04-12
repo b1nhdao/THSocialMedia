@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using THSocialMedia.Api.Extensions.Models;
 using THSocialMedia.Application.UsecaseHandlers.Users.Commands;
 using THSocialMedia.Application.UsecaseHandlers.Users.Queries;
 
@@ -53,6 +54,24 @@ namespace THSocialMedia.Api.Controllers
             var command = new DeleteUserCommand { Id = id };
             var result = await _mediator.Send(command, cancellationToken);
             return result.IsSuccess ? Ok(result.Value) : NotFound();
+        }
+
+        [HttpPost("AddFriend")]
+        public async Task<IActionResult> AddFriend([FromBody] SendRelationshipUserCommand command)
+        {
+            return (await _mediator.Send(command)).ToActionResult();
+        }
+
+        [HttpPut("AddFriend")]
+        public async Task<IActionResult> AcceptRelationShip([FromBody] UpdateRelationshipUserCommand command)
+        {
+            return (await _mediator.Send(command)).ToActionResult();
+        }
+
+        [HttpGet("AddFriend")]
+        public async Task<IActionResult> GetAllRelationShip([FromQuery] GetAllRelationshipsQuery command)
+        {
+            return (await _mediator.Send(command)).ToActionResult();
         }
     }
 }
