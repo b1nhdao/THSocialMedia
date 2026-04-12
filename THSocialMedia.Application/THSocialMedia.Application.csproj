@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="UsecaseHandlers\Auths\Queries\" />
+    <Folder Include="UsecaseHandlers\Posts\Events\" />
   </ItemGroup>
 
 </Project>

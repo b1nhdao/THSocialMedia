@@ -350,6 +350,14 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
+# Documentation files (generated during development)
+*.md
+!README.md
+
+# Configuration examples
+appsettings.example.json
+CONTROLLER_EXAMPLE.cs
+
 # BeatPulse healthcheck temp database
 healthchecksdb
 

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using THSocialMedia.Application.Services.AuthService;
+using THSocialMedia.Infrastructure;
 
 namespace THSocialMedia.Application
 {
@@ -11,7 +12,15 @@ namespace THSocialMedia.Application
         {
             services.AddScoped<IIdentityService, IdentityService>();
 
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetAssembly(typeof(ApplicationServices))));
+            // Register MediatR from both Application and Infrastructure assemblies
+            // Application assembly: Commands, Queries, and their handlers
+            // Infrastructure assembly: Event handlers (INotificationHandler implementations)
+            services.AddMediatR(cfg => 
+            {
+                cfg.RegisterServicesFromAssembly(Assembly.GetAssembly(typeof(ApplicationServices))!);
+                cfg.RegisterServicesFromAssembly(typeof(InfrastructureServices).Assembly);
+            });
+
             return services;
         }
     }

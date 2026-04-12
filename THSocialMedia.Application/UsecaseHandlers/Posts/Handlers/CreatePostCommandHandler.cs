@@ -7,6 +7,7 @@ using THSocialMedia.Application.UsecaseHandlers.Posts.Commands;
 using THSocialMedia.Domain.Abstractions;
 using THSocialMedia.Domain.Abstractions.IRepositories;
 using THSocialMedia.Domain.Entities;
+using THSocialMedia.Domain.Events;
 using THSocialMedia.Infrastructure.Services.RedisCache;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
@@ -19,6 +20,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
         private readonly IIdentityService _identityService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICacheService _cacheService;
+        private readonly IEventBus _eventBus;
         private readonly ILogger<CreatePostCommandHandler> _logger;
 
         public CreatePostCommandHandler(
@@ -28,6 +30,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             IIdentityService identityService,
             IUnitOfWork unitOfWork,
             ICacheService cacheService,
+            IEventBus eventBus,
             ILogger<CreatePostCommandHandler> logger)
         {
             _postRepository = postRepository;
@@ -36,6 +39,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             _identityService = identityService;
             _unitOfWork = unitOfWork;
             _cacheService = cacheService;
+            _eventBus = eventBus;
             _logger = logger;
         }
 
@@ -75,6 +79,17 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to update cache for new post {PostId}. Post created successfully but cache may be inconsistent.", post.Id);
+            }
+
+            // Publish event to sync to MongoDB read database
+            try
+            {
+                var @event = new PostCreatedEvent(post.Id, userId, post.Content, post.Visibility, post.FileUrls);
+                await _eventBus.PublishEventAsync(@event, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to publish PostCreatedEvent for post {PostId}. Post created successfully but read database may not be synced.", post.Id);
             }
 
             return Result<Guid>.Success(post.Id);
