@@ -6,11 +6,6 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Queries
 {
     public class GetPostByIdReadQuery : IRequest<Result<PostViewModel>>
     {
-        public Guid PostId { get; set; }
-
-        public GetPostByIdReadQuery(Guid postId)
-        {
-            PostId = postId;
-        }
+        public Guid Id { get; set; }
     }
 }

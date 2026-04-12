@@ -26,13 +26,13 @@ namespace THSocialMedia.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            return (await _mediator.Send(new GetPostByIdQuery { Id = id })).ToActionResult();
+            return (await _mediator.Send(new GetPostByIdReadQuery { Id = id })).ToActionResult();
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return (await _mediator.Send(new GetAllPostsQuery())).ToActionResult();
+            return (await _mediator.Send(new GetAllPostsReadQuery())).ToActionResult();
         }
 
         [HttpPut("{id}")]

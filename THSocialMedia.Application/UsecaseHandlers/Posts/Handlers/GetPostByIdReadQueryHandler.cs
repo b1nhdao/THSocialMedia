@@ -24,11 +24,11 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
         {
             try
             {
-                var postReadModel = await _postReadRepository.GetPostByIdAsync(request.PostId, cancellationToken);
+                var postReadModel = await _postReadRepository.GetPostByIdAsync(request.Id, cancellationToken);
 
                 if (postReadModel == null)
                 {
-                    return Result.NotFound($"Post with ID {request.PostId} not found");
+                    return Result.NotFound($"Post with ID {request.Id} not found");
                 }
 
                 var postViewModel = new PostViewModel
@@ -51,7 +51,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving post {PostId} from read database", request.PostId);
+                _logger.LogError(ex, "Error retrieving post {PostId} from read database", request.Id);
                 return Result.Error($"Error retrieving post: {ex.Message}");
             }
         }
