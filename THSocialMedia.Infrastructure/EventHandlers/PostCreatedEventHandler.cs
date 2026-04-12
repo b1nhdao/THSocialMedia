@@ -42,7 +42,7 @@ namespace THSocialMedia.Infrastructure.EventHandlers
                     CreatedAt = notification.CreatedAt,
                     UpdatedAt = notification.CreatedAt,
                     ReactionsCount = 0,
-                    CommentsCount = 0
+                    CommentsCount = 0,
                 };
 
                 await _postReadRepository.CreatePostAsync(postReadModel, cancellationToken);

@@ -3,29 +3,27 @@ using THSocialMedia.Domain.Abstractions;
 
 namespace THSocialMedia.Domain.Events
 {
-    public class PostCreatedEvent : IDomainEvent, INotification
+    public class CommentAddedEvent : IDomainEvent, INotification
     {
         public Guid AggregateId { get; }
         public DateTime CreatedAt { get; }
-        public string EventType => nameof(PostCreatedEvent);
+        public string EventType => nameof(CommentAddedEvent);
 
         public Guid PostId { get; }
+        public Guid CommentId { get; }
         public Guid UserId { get; }
         public string Content { get; }
-        public int Visibility { get; }
-        public string? FileUrls { get; }
-        public string UserName { get;  }
+        public string? FileUrl { get; }
 
-        public PostCreatedEvent(Guid postId, Guid userId, string content, int visibility, string? fileUrls, string userName)
+        public CommentAddedEvent(Guid postId, Guid commentId, Guid userId, string content, string? fileUrl)
         {
             PostId = postId;
             AggregateId = postId;
+            CommentId = commentId;
             UserId = userId;
             Content = content;
-            Visibility = visibility;
-            FileUrls = fileUrls;
+            FileUrl = fileUrl;
             CreatedAt = DateTime.UtcNow;
-            UserName = userName;
         }
     }
 }

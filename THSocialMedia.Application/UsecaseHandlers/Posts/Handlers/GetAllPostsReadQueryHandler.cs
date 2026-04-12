@@ -46,6 +46,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
                 var postViewModels = cachedPosts.Select(p => new PostViewModel
                 {
                     Id = p.Id,
+                    Username = p.UserName,
                     UserId = p.UserId,
                     Content = p.Content,
                     Visibility = p.Visibility,
@@ -53,6 +54,14 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
                     CreatedAt = p.CreatedAt,
                     IsDeleted = false,
                     CommentsCount = p.CommentsCount,
+                    Comments = p.Comments.Select(c => new CommentViewModel
+                    {
+                        Content = c.Content,
+                        CreatedAt = c.CreatedAt,
+                        UserName = c.UserName,
+                        Id = c.Id
+                    })
+                    .ToList(),
                     ReactionCounts = new List<ReactionCount>
                     {
                         new ReactionCount { Type = 1, Name = "Like", Count = p.ReactionsCount }

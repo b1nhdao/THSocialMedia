@@ -84,7 +84,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             // Publish event to sync to MongoDB read database
             try
             {
-                var @event = new PostCreatedEvent(post.Id, userId, post.Content, post.Visibility, post.FileUrls);
+                var @event = new PostCreatedEvent(post.Id, userId, post.Content, post.Visibility, post.FileUrls, user.Username);
                 await _eventBus.PublishEventAsync(@event, cancellationToken);
             }
             catch (Exception ex)

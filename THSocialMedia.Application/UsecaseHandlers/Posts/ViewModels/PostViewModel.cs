@@ -4,6 +4,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.ViewModels
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
+        public string Username { get; set; }
         public string Content { get; set; } = string.Empty;
         public int Visibility { get; set; }
         public string? FileUrls { get; set; }

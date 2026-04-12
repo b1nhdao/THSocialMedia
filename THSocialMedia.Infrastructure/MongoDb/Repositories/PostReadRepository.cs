@@ -1,4 +1,5 @@
 using MongoDB.Driver;
+using MongoDB.Driver;
 using THSocialMedia.Infrastructure.MongoDb.Abstractions;
 using THSocialMedia.Infrastructure.MongoDb.ReadModels;
 
@@ -58,13 +59,9 @@ namespace THSocialMedia.Infrastructure.MongoDb.Repositories
         {
             post.UpdatedAt = DateTime.UtcNow;
             var filter = Builders<PostReadModel>.Filter.Eq(x => x.Id, postId);
-            var update = Builders<PostReadModel>.Update
-                .Set(x => x.Content, post.Content)
-                .Set(x => x.Visibility, post.Visibility)
-                .Set(x => x.FileUrls, post.FileUrls)
-                .Set(x => x.UpdatedAt, post.UpdatedAt);
 
-            await _collection.UpdateOneAsync(filter, update, null, cancellationToken);
+            // Replace entire document to ensure all fields are updated (including Comments and Reactions)
+            await _collection.ReplaceOneAsync(filter, post, new ReplaceOptions { IsUpsert = false }, cancellationToken);
         }
 
         public async Task DeletePostAsync(Guid postId, CancellationToken cancellationToken = default)
