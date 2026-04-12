@@ -1,13 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 using StackExchange.Redis;
 using THSocialMedia.Domain.Abstractions;
 using THSocialMedia.Domain.Abstractions.IRepositories;
 using THSocialMedia.Infrastructure.EfDbContext;
 using THSocialMedia.Infrastructure.EfDbContext.WriteRepositoies;
+using THSocialMedia.Infrastructure.EventBus;
 using THSocialMedia.Infrastructure.Services.Jwt;
 using THSocialMedia.Infrastructure.Services.RedisCache;
+using THSocialMedia.Infrastructure.MongoDb.Repositories;
+using THSocialMedia.Infrastructure.MongoDb.Abstractions;
 
 namespace THSocialMedia.Infrastructure
 {
@@ -34,6 +38,27 @@ namespace THSocialMedia.Infrastructure
                 return ConnectionMultiplexer.Connect(config);
             });
 
+            // MongoDB configuration
+            services.AddSingleton<IMongoClient>(sp =>
+            {
+                var mongoConnectionString = _configuration.GetConnectionString("MongoDB");
+                return new MongoClient(mongoConnectionString);
+            });
+
+            services.AddSingleton(sp =>
+            {
+                var mongoClient = sp.GetRequiredService<IMongoClient>();
+                var mongoDbName = _configuration.GetSection("MongoDB:DatabaseName").Value ?? "THSocialMediaRead";
+                return mongoClient.GetDatabase(mongoDbName);
+            });
+
+            // Event Bus
+            services.AddScoped<IEventBus, InMemoryEventBus>();
+
+            // Read repositories
+            services.AddScoped<IPostReadRepository, PostReadRepository>();
+
+            // Write repositories
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IConversationRepository, ConversationRepository>();
