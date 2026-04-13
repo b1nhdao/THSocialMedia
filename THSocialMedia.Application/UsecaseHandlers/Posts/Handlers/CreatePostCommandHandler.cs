@@ -77,7 +77,6 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
                 _logger.LogError(ex, "Failed to update cache for new post {PostId}. Post created successfully but cache may be inconsistent.", post.Id);
             }
 
-            // Publish event to sync to MongoDB read database
             try
             {
                 var @event = new PostCreatedEvent(post.Id, userId, post.Content, post.Visibility, post.FileUrls, user.Username);

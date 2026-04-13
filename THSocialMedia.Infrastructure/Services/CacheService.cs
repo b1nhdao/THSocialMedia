@@ -4,7 +4,7 @@ using StackExchange.Redis;
 using System.Text.Json;
 using THSocialMedia.Application.Services;
 
-namespace THSocialMedia.Infrastructure.Services.Redis
+namespace THSocialMedia.Infrastructure.Services
 {
     public class CacheService : ICacheService
     {

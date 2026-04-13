@@ -15,7 +15,6 @@ using THSocialMedia.Infrastructure.EfDbContext.WriteRepositoies;
 using THSocialMedia.Infrastructure.EventBus;
 using THSocialMedia.Infrastructure.MongoDb.Repositories;
 using THSocialMedia.Infrastructure.Services;
-using THSocialMedia.Infrastructure.Services.Redis;
 
 namespace THSocialMedia.Infrastructure
 {
