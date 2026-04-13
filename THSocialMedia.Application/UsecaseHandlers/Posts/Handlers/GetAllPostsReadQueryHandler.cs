@@ -1,11 +1,9 @@
-using Ardalis.Result;
-using MediatR;
 using Microsoft.Extensions.Logging;
+using THSocialMedia.Application.Services;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Queries;
 using THSocialMedia.Application.UsecaseHandlers.Posts.ViewModels;
-using THSocialMedia.Infrastructure.MongoDb.Abstractions;
-using THSocialMedia.Infrastructure.MongoDb.ReadModels;
-using THSocialMedia.Infrastructure.Services.RedisCache;
+using THSocialMedia.Domain.Abstractions.IReadRepositories;
+using THSocialMedia.Domain.Abstractions.IReadRepositories.ReadModels;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {

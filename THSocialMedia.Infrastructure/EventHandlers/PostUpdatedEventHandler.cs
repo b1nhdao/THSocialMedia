@@ -1,9 +1,8 @@
 using MediatR;
-using MediatR;
 using Microsoft.Extensions.Logging;
+using THSocialMedia.Domain.Abstractions.IReadRepositories;
+using THSocialMedia.Domain.Abstractions.IReadRepositories.ReadModels;
 using THSocialMedia.Domain.Events;
-using THSocialMedia.Infrastructure.MongoDb.Abstractions;
-using THSocialMedia.Infrastructure.MongoDb.ReadModels;
 
 namespace THSocialMedia.Infrastructure.EventHandlers
 {

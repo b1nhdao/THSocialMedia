@@ -2,8 +2,9 @@
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using System.Text.Json;
+using THSocialMedia.Application.Services;
 
-namespace THSocialMedia.Infrastructure.Services.RedisCache
+namespace THSocialMedia.Infrastructure.Services.Redis
 {
     public class CacheService : ICacheService
     {

@@ -1,4 +1,4 @@
-namespace THSocialMedia.Infrastructure.MongoDb.ReadModels
+namespace THSocialMedia.Domain.Abstractions.IReadRepositories.ReadModels
 {
     public class PostReadModel
     {

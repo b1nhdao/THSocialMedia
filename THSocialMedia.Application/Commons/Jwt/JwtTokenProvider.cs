@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace THSocialMedia.Infrastructure.Services.Jwt
+namespace THSocialMedia.Application.Commons.Jwt
 {
     public sealed class JwtTokenProvider : IJwtTokenProvider
     {

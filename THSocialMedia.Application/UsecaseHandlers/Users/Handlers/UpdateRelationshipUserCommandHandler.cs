@@ -1,8 +1,4 @@
-﻿using Ardalis.Result;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Internal;
-using THSocialMedia.Application.UsecaseHandlers.Users.Commands;
+﻿using THSocialMedia.Application.UsecaseHandlers.Users.Commands;
 using THSocialMedia.Domain.Abstractions;
 using THSocialMedia.Domain.Abstractions.IRepositories;
 

@@ -1,4 +1,4 @@
-﻿namespace THSocialMedia.Infrastructure.Services.RedisCache
+﻿namespace THSocialMedia.Application.Services
 {
     public interface ICacheService
     {

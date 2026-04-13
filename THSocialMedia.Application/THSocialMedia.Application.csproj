@@ -7,18 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="UsecaseHandlers\Auths\Queries\**" />
+    <EmbeddedResource Remove="UsecaseHandlers\Auths\Queries\**" />
+    <None Remove="UsecaseHandlers\Auths\Queries\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Ardalis.Result" Version="9.1.0" />
     <PackageReference Include="MediatR" Version="14.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.9" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.17.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\THSocialMedia.Domain\THSocialMedia.Domain.csproj" />
-    <ProjectReference Include="..\THSocialMedia.Infrastructure\THSocialMedia.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UsecaseHandlers\Auths\Queries\" />
     <Folder Include="UsecaseHandlers\Posts\Events\" />
   </ItemGroup>
 

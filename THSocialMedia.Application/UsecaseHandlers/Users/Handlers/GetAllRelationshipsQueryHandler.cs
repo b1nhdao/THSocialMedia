@@ -1,4 +1,4 @@
-﻿using THSocialMedia.Application.Services.AuthService;
+﻿using THSocialMedia.Application.Services;
 using THSocialMedia.Application.UsecaseHandlers.Users.Queries;
 using THSocialMedia.Application.UsecaseHandlers.Users.VIewModels;
 using THSocialMedia.Domain.Abstractions;

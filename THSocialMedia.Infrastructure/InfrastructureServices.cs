@@ -1,17 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using StackExchange.Redis;
+using THSocialMedia.Application;
+using THSocialMedia.Application.Commons.Jwt;
+using THSocialMedia.Application.Services;
 using THSocialMedia.Domain.Abstractions;
+using THSocialMedia.Domain.Abstractions.IReadRepositories;
 using THSocialMedia.Domain.Abstractions.IRepositories;
 using THSocialMedia.Infrastructure.EfDbContext;
 using THSocialMedia.Infrastructure.EfDbContext.WriteRepositoies;
 using THSocialMedia.Infrastructure.EventBus;
-using THSocialMedia.Infrastructure.Services.Jwt;
-using THSocialMedia.Infrastructure.Services.RedisCache;
 using THSocialMedia.Infrastructure.MongoDb.Repositories;
-using THSocialMedia.Infrastructure.MongoDb.Abstractions;
+using THSocialMedia.Infrastructure.Services;
+using THSocialMedia.Infrastructure.Services.Redis;
 
 namespace THSocialMedia.Infrastructure
 {
@@ -73,6 +77,13 @@ namespace THSocialMedia.Infrastructure
                 return Microsoft.Extensions.Options.Options.Create(opts);
             });
             services.AddSingleton<IJwtTokenProvider, JwtTokenProvider>();
+
+            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(Assembly.GetAssembly(typeof(ApplicationServices))!);
+                cfg.RegisterServicesFromAssembly(typeof(InfrastructureServices).Assembly);
+            });
 
             return services;
         }

@@ -1,7 +1,6 @@
 using MongoDB.Driver;
-using MongoDB.Driver;
-using THSocialMedia.Infrastructure.MongoDb.Abstractions;
-using THSocialMedia.Infrastructure.MongoDb.ReadModels;
+using THSocialMedia.Domain.Abstractions.IReadRepositories;
+using THSocialMedia.Domain.Abstractions.IReadRepositories.ReadModels;
 
 namespace THSocialMedia.Infrastructure.MongoDb.Repositories
 {

@@ -1,7 +1,5 @@
-﻿using Ardalis.Result;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using THSocialMedia.Application.Services.AuthService;
+﻿using Microsoft.Extensions.Logging;
+using THSocialMedia.Application.Services;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Commands;
 using THSocialMedia.Domain.Abstractions;
 using THSocialMedia.Domain.Abstractions.IRepositories;

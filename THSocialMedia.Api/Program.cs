@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Text;
-using System.Threading.Tasks;
 using THSocialMedia.Application;
-using THSocialMedia.Application.UsecaseHandlers.Users.Commands;
+using THSocialMedia.Application.Commons.Jwt;
 using THSocialMedia.Infrastructure;
 using THSocialMedia.Infrastructure.EfDbContext;
-using THSocialMedia.Infrastructure.Services.Jwt;
 
 namespace THSocialMedia.Api
 {

@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace THSocialMedia.Infrastructure.Services.Jwt
+namespace THSocialMedia.Application.Commons.Jwt
 {
     public interface IJwtTokenProvider
     {

@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using THSocialMedia.Application.Services;
 using THSocialMedia.Domain.Abstractions.IRepositories;
 
-namespace THSocialMedia.Application.Services.AuthService;
+namespace THSocialMedia.Infrastructure.Services;
 
 public class IdentityService(IHttpContextAccessor context) : IIdentityService
 {

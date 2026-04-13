@@ -1,6 +1,6 @@
-using THSocialMedia.Infrastructure.MongoDb.ReadModels;
+using THSocialMedia.Domain.Abstractions.IReadRepositories.ReadModels;
 
-namespace THSocialMedia.Infrastructure.MongoDb.Abstractions
+namespace THSocialMedia.Domain.Abstractions.IReadRepositories
 {
     public interface IPostReadRepository
     {

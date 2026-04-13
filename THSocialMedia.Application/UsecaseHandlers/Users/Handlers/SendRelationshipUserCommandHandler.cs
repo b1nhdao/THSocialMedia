@@ -1,7 +1,4 @@
-﻿using Ardalis.Result;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using THSocialMedia.Application.Services.AuthService;
+﻿using THSocialMedia.Application.Services;
 using THSocialMedia.Application.UsecaseHandlers.Users.Commands;
 using THSocialMedia.Domain.Abstractions;
 using THSocialMedia.Domain.Abstractions.IRepositories;

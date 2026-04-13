@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\THSocialMedia.Application\THSocialMedia.Application.csproj" />
+    <ProjectReference Include="..\THSocialMedia.Infrastructure\THSocialMedia.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

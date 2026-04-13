@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Queries;
 using THSocialMedia.Application.UsecaseHandlers.Posts.ViewModels;
-using THSocialMedia.Infrastructure.MongoDb.Abstractions;
+using THSocialMedia.Domain.Abstractions.IReadRepositories;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {

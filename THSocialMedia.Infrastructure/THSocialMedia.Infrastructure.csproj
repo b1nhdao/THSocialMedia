@@ -19,15 +19,11 @@
     <PackageReference Include="MongoDB.Driver" Version="2.27.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     <PackageReference Include="StackExchange.Redis" Version="2.12.14" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.8.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\THSocialMedia.Application\THSocialMedia.Application.csproj" />
     <ProjectReference Include="..\THSocialMedia.Domain\THSocialMedia.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\MongoDb\" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,11 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using THSocialMedia.Application.Services.AuthService;
+using THSocialMedia.Application.Services;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Queries;
 using THSocialMedia.Application.UsecaseHandlers.Posts.ViewModels;
 using THSocialMedia.Domain.Abstractions.IRepositories;
 using THSocialMedia.Domain.Entities;
-using THSocialMedia.Infrastructure.Services.RedisCache;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {

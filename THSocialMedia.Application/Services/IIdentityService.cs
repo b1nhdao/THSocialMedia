@@ -1,4 +1,4 @@
-﻿namespace THSocialMedia.Application.Services.AuthService;
+﻿namespace THSocialMedia.Application.Services;
 
 public interface IIdentityService
 {

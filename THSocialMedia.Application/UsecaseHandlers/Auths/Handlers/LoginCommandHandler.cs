@@ -1,9 +1,9 @@
 ﻿using System.Security.Claims;
 using Ardalis.Result;
 using MediatR;
+using THSocialMedia.Application.Commons.Jwt;
 using THSocialMedia.Application.UsecaseHandlers.Auths.Commands;
 using THSocialMedia.Domain.Abstractions.IRepositories;
-using THSocialMedia.Infrastructure.Services.Jwt;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Auths.Handlers
 {
