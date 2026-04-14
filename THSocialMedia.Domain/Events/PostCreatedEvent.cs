@@ -13,10 +13,10 @@ namespace THSocialMedia.Domain.Events
         public Guid UserId { get; }
         public string Content { get; }
         public int Visibility { get; }
-        public string? FileUrls { get; }
-        public string UserName { get;  }
+        public List<string>? FileUrls { get; }
+        public string UserName { get; }
 
-        public PostCreatedEvent(Guid postId, Guid userId, string content, int visibility, string? fileUrls, string userName)
+        public PostCreatedEvent(Guid postId, Guid userId, string content, int visibility, List<string>? fileUrls, string userName)
         {
             PostId = postId;
             AggregateId = postId;

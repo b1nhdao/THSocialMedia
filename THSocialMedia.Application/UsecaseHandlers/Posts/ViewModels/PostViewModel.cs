@@ -7,7 +7,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.ViewModels
         public string Username { get; set; }
         public string Content { get; set; } = string.Empty;
         public int Visibility { get; set; }
-        public string? FileUrls { get; set; }
+        public List<string>? FileUrls { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsDeleted { get; set; }
         public int CommentsCount { get; set; }

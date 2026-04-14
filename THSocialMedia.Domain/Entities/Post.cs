@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace THSocialMedia.Domain.Entities
 {
@@ -7,7 +8,7 @@ namespace THSocialMedia.Domain.Entities
         public Guid UserId { get; set; }
         public string Content { get; set; } = string.Empty;
         public int Visibility { get; set; }
-        public string? FileUrls { get; set; }
+        public List<string>? FileUrls { get; set; }
 
         [JsonIgnore]
         public List<ReactionPost> Reactions { get; set; } = new List<ReactionPost>();
