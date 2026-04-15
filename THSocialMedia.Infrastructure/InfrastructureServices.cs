@@ -62,7 +62,7 @@ namespace THSocialMedia.Infrastructure
             services.AddScoped<IPostReadRepository, PostReadRepository>();
 
             // Write repositories
-            services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IPostWriteRepository, PostWriteRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IConversationRepository, ConversationRepository>();
             services.AddScoped<IRelationshipRepository, RelationshipRepository>();

@@ -10,13 +10,13 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {
     public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, Result<bool>>
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IPostWriteRepository _postRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEventBus _eventBus;
         private readonly ILogger<DeletePostCommandHandler> _logger;
 
         public DeletePostCommandHandler(
-            IPostRepository postRepository,
+            IPostWriteRepository postRepository,
             IUnitOfWork unitOfWork,
             IEventBus eventBus,
             ILogger<DeletePostCommandHandler> logger)

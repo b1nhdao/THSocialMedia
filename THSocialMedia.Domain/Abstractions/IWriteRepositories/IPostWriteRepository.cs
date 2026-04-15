@@ -2,7 +2,7 @@
 
 namespace THSocialMedia.Domain.Abstractions.IRepositories
 {
-    public interface IPostRepository : IBaseWriteRepository<Post>
+    public interface IPostWriteRepository : IBaseWriteRepository<Post>
     {
     }
 }

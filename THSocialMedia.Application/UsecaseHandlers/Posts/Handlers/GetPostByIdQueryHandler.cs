@@ -9,10 +9,10 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {
     public class GetPostByIdQueryHandler : IRequestHandler<GetPostByIdQuery, Result<PostViewModel>>
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IPostWriteRepository _postRepository;
         private readonly IUserRepository userRepository;
 
-        public GetPostByIdQueryHandler(IPostRepository postRepository, IUserRepository userRepository)
+        public GetPostByIdQueryHandler(IPostWriteRepository postRepository, IUserRepository userRepository)
         {
             _postRepository = postRepository;
             this.userRepository = userRepository;

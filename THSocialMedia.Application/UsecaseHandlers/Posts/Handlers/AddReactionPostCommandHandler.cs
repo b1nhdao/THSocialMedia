@@ -10,14 +10,14 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {
     public class AddReactionPostCommandHandler : IRequestHandler<AddReactionPostCommand, Result<Guid>>
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IPostWriteRepository _postRepository;
         private readonly IIdentityService _identityService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEventBus _eventBus;
         private readonly ILogger<AddReactionPostCommandHandler> _logger;
 
         public AddReactionPostCommandHandler(
-            IPostRepository postRepository,
+            IPostWriteRepository postRepository,
             IIdentityService identityService,
             IUnitOfWork unitOfWork,
             IEventBus eventBus,

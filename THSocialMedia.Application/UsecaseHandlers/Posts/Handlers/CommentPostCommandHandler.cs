@@ -10,14 +10,14 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {
     public class CommentPostCommandHandler : IRequestHandler<CommentPostCommand, Result<Guid>>
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IPostWriteRepository _postRepository;
         private readonly IIdentityService _identityService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEventBus _eventBus;
         private readonly ILogger<CommentPostCommandHandler> _logger;
 
         public CommentPostCommandHandler(
-            IPostRepository postRepository,
+            IPostWriteRepository postRepository,
             IIdentityService identityService,
             IUnitOfWork unitOfWork,
             IEventBus eventBus,

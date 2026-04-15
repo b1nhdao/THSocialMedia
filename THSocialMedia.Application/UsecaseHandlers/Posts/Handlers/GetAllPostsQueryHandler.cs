@@ -11,13 +11,13 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {
     public class GetAllPostsQueryHandler : IRequestHandler<GetAllPostsQuery, Result<IEnumerable<PostViewModel>>>
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IPostWriteRepository _postRepository;
         private readonly ICacheService _cacheService;
         private readonly IIdentityService _identityService;
         private readonly ILogger<GetAllPostsQueryHandler> _logger;
 
         public GetAllPostsQueryHandler(
-            IPostRepository postRepository,
+            IPostWriteRepository postRepository,
             ICacheService cacheService,
             IIdentityService identityService,
             ILogger<GetAllPostsQueryHandler> logger)

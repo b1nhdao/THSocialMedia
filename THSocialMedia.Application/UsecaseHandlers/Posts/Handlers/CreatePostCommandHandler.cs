@@ -10,7 +10,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {
     public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Result<Guid>>
     {
-        private readonly IPostRepository _postRepository;
+        private readonly IPostWriteRepository _postRepository;
         private readonly IRelationshipRepository _relationshipRepository;
         private readonly IUserRepository _userRepository;
         private readonly IIdentityService _identityService;
@@ -20,7 +20,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
         private readonly ILogger<CreatePostCommandHandler> _logger;
 
         public CreatePostCommandHandler(
-            IPostRepository postRepository,
+            IPostWriteRepository postRepository,
             IRelationshipRepository relationshipRepository,
             IUserRepository userRepository,
             IIdentityService identityService,

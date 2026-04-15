@@ -3,9 +3,9 @@ using THSocialMedia.Domain.Entities;
 
 namespace THSocialMedia.Infrastructure.EfDbContext.WriteRepositoies
 {
-    public class PostRepository : BaseWriteRepository<Post>, IPostRepository
+    public class PostWriteRepository : BaseWriteRepository<Post>, IPostWriteRepository
     {
-        public PostRepository(WriteDbContext dbContext) : base(dbContext)
+        public PostWriteRepository(WriteDbContext dbContext) : base(dbContext)
         {
         }
     }
