@@ -7,6 +7,6 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Commands
     {
         public string Content { get; set; } = string.Empty;
         public int Visibility { get; set; }
-        public string? FileUrls { get; set; }
+        public List<string>? FileUrls { get; set; }
     }
 }

@@ -1,5 +1,3 @@
-using Ardalis.Result;
-using MediatR;
 using Microsoft.Extensions.Logging;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Commands;
 using THSocialMedia.Domain.Abstractions;
@@ -38,7 +36,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
                 post.Content = request.Content;
             if (request.Visibility.HasValue)
                 post.Visibility = request.Visibility.Value;
-            if (!string.IsNullOrEmpty(request.FileUrls))
+            if (request.FileUrls != null)
                 post.FileUrls = request.FileUrls;
 
             _postRepository.Update(post);

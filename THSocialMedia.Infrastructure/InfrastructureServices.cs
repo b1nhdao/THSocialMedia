@@ -7,6 +7,7 @@ using StackExchange.Redis;
 using THSocialMedia.Application;
 using THSocialMedia.Application.Commons.Jwt;
 using THSocialMedia.Application.Services;
+using THSocialMedia.Application.Services.StorageService;
 using THSocialMedia.Domain.Abstractions;
 using THSocialMedia.Domain.Abstractions.IReadRepositories;
 using THSocialMedia.Domain.Abstractions.IRepositories;
@@ -68,6 +69,7 @@ namespace THSocialMedia.Infrastructure
             services.AddScoped<IRelationshipRepository, RelationshipRepository>();
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<WriteDbContext>());
             services.AddScoped<ICacheService, CacheService>();
+            services.AddScoped<IStorageService, CloudinaryCloudStorageService>();
 
             services.AddSingleton(sp =>
             {

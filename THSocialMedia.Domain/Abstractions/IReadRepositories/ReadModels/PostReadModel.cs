@@ -8,7 +8,7 @@ namespace THSocialMedia.Domain.Abstractions.IReadRepositories.ReadModels
         public string UserAvatar { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public int Visibility { get; set; }
-        public string? FileUrls { get; set; }
+        public List<string>? FileUrls { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public int ReactionsCount { get; set; }

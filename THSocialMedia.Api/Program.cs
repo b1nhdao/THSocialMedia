@@ -1,9 +1,12 @@
-﻿using System.Text;
+﻿using CloudinaryDotNet;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 using THSocialMedia.Application;
+using THSocialMedia.Application.Commons;
 using THSocialMedia.Application.Commons.Jwt;
 using THSocialMedia.Infrastructure;
 using THSocialMedia.Infrastructure.EfDbContext;
@@ -57,6 +60,20 @@ namespace THSocialMedia.Api
                 .AddHttpContextAccessor()
                 .AddApplicationServices()
                 .AddInfrastructureServices(builder.Configuration);
+
+            builder.Services.AddSingleton(sp =>
+            {
+                var account = new Account
+                {
+                    Cloud = builder.Configuration.GetSection("Cloudinary:CloudName").Value ?? string.Empty,
+                    ApiKey = builder.Configuration.GetSection("Cloudinary:ApiKey").Value ?? string.Empty,
+                    ApiSecret = builder.Configuration.GetSection("Cloudinary:ApiSecret").Value ?? string.Empty,
+                };
+                var cloudinary = new Cloudinary(account);
+                cloudinary.Api.Secure = true;
+
+                return cloudinary;
+            });
 
             // JWT auth
             var jwtOptions = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>() ?? new JwtOptions();
