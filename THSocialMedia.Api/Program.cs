@@ -139,6 +139,11 @@ namespace THSocialMedia.Api
                 }
             }
 
+            Console.WriteLine("ENV: " + builder.Environment.EnvironmentName);
+
+            var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+            Console.WriteLine("CONN: " + conn);
+
             app.Run();
         }
     }
