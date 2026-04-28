@@ -32,7 +32,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
                     entityKeyPrefix: "post",
                     timelineKeyPrefix: "timeline",
                     readCacheKeyPrefix: "feed",
-                    userId: Guid.Empty, // Use empty GUID as key for "all posts" feed
+                    userId: Guid.Parse("00000000-0000-0000-0000-000000000000"), // Use empty GUID as key for "all posts" feed
                     fetchFromSource: async () => await _postReadRepository.GetAllPostsAsync(cancellationToken),
                     getEntityId: p => p.Id,
                     getScoreTime: p => new DateTimeOffset(p.CreatedAt, TimeSpan.Zero),
