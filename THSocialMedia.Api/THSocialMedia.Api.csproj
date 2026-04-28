@@ -23,7 +23,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.7" />
   </ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
     <ProjectReference Include="..\THSocialMedia.Application\THSocialMedia.Application.csproj" />
     <ProjectReference Include="..\THSocialMedia.Infrastructure\THSocialMedia.Infrastructure.csproj" />
   </ItemGroup>
