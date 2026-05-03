@@ -122,22 +122,26 @@ namespace THSocialMedia.Api
 
             app.MapControllers();
 
-            using (var scope = app.Services.CreateScope())
+            if (builder.Environment.IsDevelopment())
             {
-                var services = scope.ServiceProvider;
-
-                try
+                using (var scope = app.Services.CreateScope())
                 {
-                    var context = services.GetRequiredService<WriteDbContext>();
+                    var services = scope.ServiceProvider;
 
-                    await context.Database.MigrateAsync();
-                }
-                catch (Exception ex)
-                {
-                    // log nếu cần
-                    Console.WriteLine($"Migration error: {ex.Message}");
+                    try
+                    {
+                        var context = services.GetRequiredService<WriteDbContext>();
+
+                        await context.Database.MigrateAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        // log nếu cần
+                        Console.WriteLine($"Migration error: {ex.Message}");
+                    }
                 }
             }
+
 
             app.Run();
         }

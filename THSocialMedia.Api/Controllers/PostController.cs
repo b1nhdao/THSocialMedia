@@ -54,6 +54,21 @@ namespace THSocialMedia.Api.Controllers
             return (await _mediator.Send(command)).ToActionResult();
         }
 
+        [HttpPut("{id}/comment/{commentId}")]
+        public async Task<IActionResult> UpdateComment(Guid id, Guid commentId, [FromBody] UpdateCommentCommand command)
+        {
+            command.PostId = id;
+            command.CommentId = commentId;
+            return (await _mediator.Send(command)).ToActionResult();
+        }
+
+        [HttpDelete("{id}/comment/{commentId}")]
+        public async Task<IActionResult> DeleteComment(Guid id, Guid commentId)
+        {
+            var command = new DeleteCommentCommand { PostId = id, CommentId = commentId };
+            return (await _mediator.Send(command)).ToActionResult();
+        }
+
         [HttpPost("{id}/react")]
         public async Task<IActionResult> ReactPost(Guid id, AddReactionPostCommand command)
         {

@@ -144,9 +144,6 @@ namespace THSocialMedia.Infrastructure.Services
                 foreach (var userId in targets)
                 {
                     tasks.Add(batch.SortedSetAddAsync(TimelineKey(timelineKeyPrefix, userId), entityId.ToString("N"), score));
-
-                    if (invalidateReadCache)
-                        tasks.Add(batch.KeyDeleteAsync(ReadCacheKey(readCacheKeyPrefix, userId)));
                 }
 
                 batch.Execute();

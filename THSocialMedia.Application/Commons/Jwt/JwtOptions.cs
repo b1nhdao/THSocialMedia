@@ -6,7 +6,7 @@ namespace THSocialMedia.Application.Commons.Jwt
 
         public string Issuer { get; set; } = string.Empty;
         public string Audience { get; set; } = string.Empty;
-        public string Key { get; set; } = string.Empty;
+        public string Key { get; set; } = "mysupersecretkey_very_long_123456789";
         public int ExpMinutes { get; set; } = 60;
     }
 }
