@@ -1,6 +1,6 @@
 services:
-  thsocialmedia.api:
-    image: ${DOCKER_REGISTRY-}thsocialmediaapi
+  thsocialmedia.presentation:
+    image: ${DOCKER_REGISTRY-}thsocialmediapresentation
     build:
       context: .
       dockerfile: THSocialMedia.Api/Dockerfile
