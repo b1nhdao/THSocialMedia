@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THSocialMedia.Infrastructur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THSocialMedia.Application", "THSocialMedia.Application\THSocialMedia.Application.csproj", "{F844E7E0-B08D-40B2-931C-E1AABAF7309B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THSocialMedia.Api", "THSocialMedia.Api\THSocialMedia.Api.csproj", "{DCDA437E-9A78-4EC1-88EE-4744185E21D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "THSocialMedia.Presentation", "THSocialMedia.Api\THSocialMedia.Presentation.csproj", "{DCDA437E-9A78-4EC1-88EE-4744185E21D6}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject

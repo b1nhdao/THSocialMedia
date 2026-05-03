@@ -2,7 +2,7 @@ using THSocialMedia.Domain.Abstractions.IReadRepositories.ReadModels;
 
 namespace THSocialMedia.Domain.Abstractions.IReadRepositories
 {
-    public interface IPostReadRepository
+    public interface IPostReadRepository : IReadRepository<PostReadModel>
     {
         Task<PostReadModel> GetPostByIdAsync(Guid postId, CancellationToken cancellationToken = default);
         Task<IEnumerable<PostReadModel>> GetPostsByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
