@@ -11,7 +11,7 @@ using THSocialMedia.Application.Commons.Jwt;
 using THSocialMedia.Infrastructure;
 using THSocialMedia.Infrastructure.EfDbContext;
 
-namespace THSocialMedia.Api
+namespace THSocialMedia.Presentation
 {
     public class Program
     {

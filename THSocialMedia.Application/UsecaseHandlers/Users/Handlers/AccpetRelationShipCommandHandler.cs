@@ -1,6 +1,6 @@
 ﻿using THSocialMedia.Application.UsecaseHandlers.Users.Commands;
 using THSocialMedia.Domain.Abstractions;
-using THSocialMedia.Domain.Abstractions.IRepositories;
+using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Users.Handlers
 {

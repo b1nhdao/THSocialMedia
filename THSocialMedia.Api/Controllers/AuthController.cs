@@ -1,10 +1,10 @@
 ﻿using Ardalis.Result;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using THSocialMedia.Api.Extensions.Models;
 using THSocialMedia.Application.UsecaseHandlers.Auths.Commands;
+using THSocialMedia.Presentation.Extensions.Models;
 
-namespace THSocialMedia.Api.Controllers
+namespace THSocialMedia.Presentation.Controllers
 {
 
     [ApiController]

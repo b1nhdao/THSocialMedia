@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using Microsoft.AspNetCore.Mvc;
 
-namespace THSocialMedia.Api.Extensions.Models;
+namespace THSocialMedia.Presentation.Extensions.Models;
 
 internal static class ResultExtensions
 {

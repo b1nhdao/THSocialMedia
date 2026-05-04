@@ -4,15 +4,15 @@ using THSocialMedia.Domain.Abstractions.IReadRepositories;
 using THSocialMedia.Domain.Abstractions.IReadRepositories.ReadModels;
 using THSocialMedia.Domain.Events;
 
-namespace THSocialMedia.Infrastructure.EventHandlers
+namespace THSocialMedia.Application.UsecaseHandlers.Posts.EventHandlers
 {
     public class PostUpdatedEventHandler : INotificationHandler<PostUpdatedEvent>
     {
-        private readonly IPostReadRepository _postReadRepository;
+        private readonly IBasePostReadRepository _postReadRepository;
         private readonly ILogger<PostUpdatedEventHandler> _logger;
 
         public PostUpdatedEventHandler(
-            IPostReadRepository postReadRepository,
+            IBasePostReadRepository postReadRepository,
             ILogger<PostUpdatedEventHandler> logger)
         {
             _postReadRepository = postReadRepository;
@@ -23,7 +23,7 @@ namespace THSocialMedia.Infrastructure.EventHandlers
         {
             try
             {
-                var existingPost = await _postReadRepository.GetPostByIdAsync(notification.PostId, cancellationToken);
+                var existingPost = await _postReadRepository.GetByIdAsync(notification.PostId, cancellationToken);
                 if (existingPost == null)
                 {
                     _logger.LogWarning("Post {PostId} not found in MongoDB when updating", notification.PostId);
@@ -45,7 +45,7 @@ namespace THSocialMedia.Infrastructure.EventHandlers
                     CommentsCount = existingPost.CommentsCount
                 };
 
-                await _postReadRepository.UpdatePostAsync(notification.PostId, updatedPost, cancellationToken);
+                await _postReadRepository.UpdateAsync(notification.PostId, updatedPost, cancellationToken);
                 _logger.LogInformation("Post {PostId} updated in MongoDB read database", notification.PostId);
             }
             catch (Exception ex)

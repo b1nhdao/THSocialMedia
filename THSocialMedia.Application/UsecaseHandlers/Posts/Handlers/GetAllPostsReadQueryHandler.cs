@@ -9,12 +9,12 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {
     public class GetAllPostsReadQueryHandler : IRequestHandler<GetAllPostsReadQuery, Result<IEnumerable<PostViewModel>>>
     {
-        private readonly IPostReadRepository _postReadRepository;
+        private readonly IBasePostReadRepository _postReadRepository;
         private readonly ICacheService _cacheService;
         private readonly ILogger<GetAllPostsReadQueryHandler> _logger;
 
         public GetAllPostsReadQueryHandler(
-            IPostReadRepository postReadRepository,
+            IBasePostReadRepository postReadRepository,
             ICacheService cacheService,
             ILogger<GetAllPostsReadQueryHandler> logger)
         {
@@ -33,7 +33,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
                     timelineKeyPrefix: "timeline",
                     readCacheKeyPrefix: "feed",
                     userId: Guid.Parse("00000000-0000-0000-0000-000000000000"), // Use empty GUID as key for "all posts" feed
-                    fetchFromSource: async () => await _postReadRepository.GetAllPostsAsync(cancellationToken),
+                    fetchFromSource: async () => await _postReadRepository.GetAllAsync(cancellationToken),
                     getEntityId: p => p.Id,
                     getScoreTime: p => new DateTimeOffset(p.CreatedAt, TimeSpan.Zero),
                     take: 50,

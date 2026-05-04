@@ -4,10 +4,10 @@ using THSocialMedia.Application.Services.StorageService;
 
 namespace THSocialMedia.Infrastructure.Services
 {
-    public class CloudinaryCloudStorageService : IStorageService
+    public class StorageService : IStorageService
     {
         private readonly Cloudinary _cloudinary;
-        public CloudinaryCloudStorageService(Cloudinary cloudinary)
+        public StorageService(Cloudinary cloudinary)
         {
             _cloudinary = cloudinary;
         }

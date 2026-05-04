@@ -2,7 +2,7 @@
 using THSocialMedia.Application.Services;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Commands;
 using THSocialMedia.Domain.Abstractions;
-using THSocialMedia.Domain.Abstractions.IRepositories;
+using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 using THSocialMedia.Domain.Entities;
 using THSocialMedia.Domain.Events;
 
@@ -13,7 +13,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
         private readonly IPostWriteRepository _postRepository;
         private readonly IRelationshipRepository _relationshipRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IIdentityService _identityService;
+        private readonly IAuthService _identityService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICacheService _cacheService;
         private readonly IEventBus _eventBus;
@@ -23,7 +23,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
             IPostWriteRepository postRepository,
             IRelationshipRepository relationshipRepository,
             IUserRepository userRepository,
-            IIdentityService identityService,
+            IAuthService identityService,
             IUnitOfWork unitOfWork,
             ICacheService cacheService,
             IEventBus eventBus,

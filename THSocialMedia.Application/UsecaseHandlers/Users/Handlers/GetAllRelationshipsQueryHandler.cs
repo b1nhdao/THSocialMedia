@@ -2,7 +2,7 @@
 using THSocialMedia.Application.UsecaseHandlers.Users.Queries;
 using THSocialMedia.Application.UsecaseHandlers.Users.VIewModels;
 using THSocialMedia.Domain.Abstractions;
-using THSocialMedia.Domain.Abstractions.IRepositories;
+using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Users.Handlers
 {
@@ -11,9 +11,9 @@ namespace THSocialMedia.Application.UsecaseHandlers.Users.Handlers
         private readonly IRelationshipRepository _relationshipRepository;
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IIdentityService _identityService;
+        private readonly IAuthService _identityService;
 
-        public GetAllRelationshipsQueryHandler(IRelationshipRepository relationshipRepository, IUserRepository userRepository, IUnitOfWork unitOfWork, IIdentityService identityService)
+        public GetAllRelationshipsQueryHandler(IRelationshipRepository relationshipRepository, IUserRepository userRepository, IUnitOfWork unitOfWork, IAuthService identityService)
         {
             _relationshipRepository = relationshipRepository;
             _userRepository = userRepository;

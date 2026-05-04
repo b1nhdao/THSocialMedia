@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Commands;
 using THSocialMedia.Domain.Abstractions;
-using THSocialMedia.Domain.Abstractions.IRepositories;
+using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 using THSocialMedia.Domain.Events;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers

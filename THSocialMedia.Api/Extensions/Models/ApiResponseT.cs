@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace THSocialMedia.Api.Extensions.Models;
+namespace THSocialMedia.Presentation.Extensions.Models;
 
 public sealed class ApiResponse<TResult> : ApiResponse
 {

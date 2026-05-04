@@ -1,6 +1,6 @@
 ﻿using THSocialMedia.Domain.Entities;
 
-namespace THSocialMedia.Domain.Abstractions.IRepositories
+namespace THSocialMedia.Domain.Abstractions.IWriteRepositories
 {
     public interface IConversationRepository : IBaseWriteRepository<Conversation>
     {

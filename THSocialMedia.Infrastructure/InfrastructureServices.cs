@@ -10,11 +10,11 @@ using THSocialMedia.Application.Services;
 using THSocialMedia.Application.Services.StorageService;
 using THSocialMedia.Domain.Abstractions;
 using THSocialMedia.Domain.Abstractions.IReadRepositories;
-using THSocialMedia.Domain.Abstractions.IRepositories;
+using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 using THSocialMedia.Infrastructure.EfDbContext;
 using THSocialMedia.Infrastructure.EfDbContext.WriteRepositoies;
 using THSocialMedia.Infrastructure.EventBus;
-using THSocialMedia.Infrastructure.MongoDb.Repositories;
+using THSocialMedia.Infrastructure.ReadRepositories.Repositories;
 using THSocialMedia.Infrastructure.Services;
 
 namespace THSocialMedia.Infrastructure
@@ -60,7 +60,7 @@ namespace THSocialMedia.Infrastructure
             services.AddScoped<IEventBus, InMemoryEventBus>();
 
             // Read repositories
-            services.AddScoped<IPostReadRepository, PostReadRepository>();
+            services.AddScoped<IBasePostReadRepository, PostReadRepository>();
 
             // Write repositories
             services.AddScoped<IPostWriteRepository, PostWriteRepository>();
@@ -69,7 +69,7 @@ namespace THSocialMedia.Infrastructure
             services.AddScoped<IRelationshipRepository, RelationshipRepository>();
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<WriteDbContext>());
             services.AddScoped<ICacheService, CacheService>();
-            services.AddScoped<IStorageService, CloudinaryCloudStorageService>();
+            services.AddScoped<IStorageService, StorageService>();
 
             services.AddSingleton(sp =>
             {
@@ -79,7 +79,7 @@ namespace THSocialMedia.Infrastructure
             });
             services.AddSingleton<IJwtTokenProvider, JwtTokenProvider>();
 
-            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(Assembly.GetAssembly(typeof(ApplicationServices))!);

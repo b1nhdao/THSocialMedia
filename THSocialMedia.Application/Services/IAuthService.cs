@@ -1,6 +1,6 @@
 ﻿namespace THSocialMedia.Application.Services;
 
-public interface IIdentityService
+public interface IAuthService
 {
     Guid GetUserIdentity();
 

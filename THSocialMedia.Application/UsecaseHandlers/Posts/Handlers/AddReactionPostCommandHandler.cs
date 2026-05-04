@@ -2,7 +2,7 @@
 using THSocialMedia.Application.Services;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Commands;
 using THSocialMedia.Domain.Abstractions;
-using THSocialMedia.Domain.Abstractions.IRepositories;
+using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 using THSocialMedia.Domain.Entities;
 using THSocialMedia.Domain.Events;
 
@@ -11,14 +11,14 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
     public class AddReactionPostCommandHandler : IRequestHandler<AddReactionPostCommand, Result<Guid>>
     {
         private readonly IPostWriteRepository _postRepository;
-        private readonly IIdentityService _identityService;
+        private readonly IAuthService _identityService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEventBus _eventBus;
         private readonly ILogger<AddReactionPostCommandHandler> _logger;
 
         public AddReactionPostCommandHandler(
             IPostWriteRepository postRepository,
-            IIdentityService identityService,
+            IAuthService identityService,
             IUnitOfWork unitOfWork,
             IEventBus eventBus,
             ILogger<AddReactionPostCommandHandler> logger)

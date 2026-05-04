@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using THSocialMedia.Api.Extensions.Models;
 using THSocialMedia.Application.Services.StorageService;
 using THSocialMedia.Application.UsecaseHandlers.Uploads.Commands;
+using THSocialMedia.Presentation.Extensions.Models;
 
-namespace THSocialMedia.Api.Controllers
+namespace THSocialMedia.Presentation.Controllers
 {
     [ApiController]
     [Route("api/upload")]
