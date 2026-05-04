@@ -22,6 +22,10 @@ namespace THSocialMedia.Infrastructure.EfDbContext
         public DbSet<Conversation> Conversations { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Proposal> Proposals { get; set; }
+        public DbSet<ProposalDetail> ProposalDetails { get; set; }
+        public DbSet<ProposalHistory> ProposalHistories { get; set; }
+        public DbSet<Recommendation> Recommendations { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
         public DbSet<ReactionPost> ReactionPosts { get; set; }
         public DbSet<Relationship> Relationships { get; set; }

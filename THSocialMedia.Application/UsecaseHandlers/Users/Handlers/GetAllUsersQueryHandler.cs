@@ -2,7 +2,7 @@ using Ardalis.Result;
 using MediatR;
 using THSocialMedia.Application.UsecaseHandlers.Users.Queries;
 using THSocialMedia.Application.UsecaseHandlers.Users.ViewModels;
-using THSocialMedia.Domain.Abstractions.IRepositories;
+using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Users.Handlers
 {

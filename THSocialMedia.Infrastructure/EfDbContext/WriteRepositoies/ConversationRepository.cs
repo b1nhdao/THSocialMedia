@@ -1,4 +1,4 @@
-﻿using THSocialMedia.Domain.Abstractions.IRepositories;
+﻿using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 using THSocialMedia.Domain.Entities;
 
 namespace THSocialMedia.Infrastructure.EfDbContext.WriteRepositoies

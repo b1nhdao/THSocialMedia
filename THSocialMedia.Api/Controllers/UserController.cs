@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using THSocialMedia.Api.Extensions.Models;
 using THSocialMedia.Application.UsecaseHandlers.Users.Commands;
 using THSocialMedia.Application.UsecaseHandlers.Users.Queries;
+using THSocialMedia.Presentation.Extensions.Models;
 
-namespace THSocialMedia.Api.Controllers
+namespace THSocialMedia.Presentation.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

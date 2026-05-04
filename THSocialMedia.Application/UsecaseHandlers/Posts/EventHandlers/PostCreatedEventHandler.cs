@@ -2,19 +2,19 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using THSocialMedia.Domain.Abstractions.IReadRepositories;
 using THSocialMedia.Domain.Abstractions.IReadRepositories.ReadModels;
-using THSocialMedia.Domain.Abstractions.IRepositories;
+using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 using THSocialMedia.Domain.Events;
 
-namespace THSocialMedia.Infrastructure.EventHandlers
+namespace THSocialMedia.Application.UsecaseHandlers.Posts.EventHandlers
 {
     public class PostCreatedEventHandler : INotificationHandler<PostCreatedEvent>
     {
-        private readonly IPostReadRepository _postReadRepository;
+        private readonly IBasePostReadRepository _postReadRepository;
         private readonly IUserRepository _userRepository;
         private readonly ILogger<PostCreatedEventHandler> _logger;
 
         public PostCreatedEventHandler(
-            IPostReadRepository postReadRepository,
+            IBasePostReadRepository postReadRepository,
             IUserRepository userRepository,
             ILogger<PostCreatedEventHandler> logger)
         {
@@ -44,7 +44,7 @@ namespace THSocialMedia.Infrastructure.EventHandlers
                     CommentsCount = 0,
                 };
 
-                await _postReadRepository.CreatePostAsync(postReadModel, cancellationToken);
+                await _postReadRepository.CreateAsync(postReadModel, cancellationToken);
                 _logger.LogInformation("Post {PostId} synced to MongoDB read database", notification.PostId);
             }
             catch (Exception ex)

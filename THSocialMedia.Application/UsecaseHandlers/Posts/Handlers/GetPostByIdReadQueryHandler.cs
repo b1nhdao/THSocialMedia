@@ -9,11 +9,11 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {
     public class GetPostByIdReadQueryHandler : IRequestHandler<GetPostByIdReadQuery, Result<PostViewModel>>
     {
-        private readonly IPostReadRepository _postReadRepository;
+        private readonly IBasePostReadRepository _postReadRepository;
         private readonly ILogger<GetPostByIdReadQueryHandler> _logger;
 
         public GetPostByIdReadQueryHandler(
-            IPostReadRepository postReadRepository,
+            IBasePostReadRepository postReadRepository,
             ILogger<GetPostByIdReadQueryHandler> logger)
         {
             _postReadRepository = postReadRepository;
@@ -24,7 +24,7 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
         {
             try
             {
-                var postReadModel = await _postReadRepository.GetPostByIdAsync(request.Id, cancellationToken);
+                var postReadModel = await _postReadRepository.GetByIdAsync(request.Id, cancellationToken);
 
                 if (postReadModel == null)
                 {

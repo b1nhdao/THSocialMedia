@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore.Query;
 
-namespace THSocialMedia.Domain.Abstractions.IRepositories
+namespace THSocialMedia.Domain.Abstractions.IWriteRepositories
 {
     public interface IBaseWriteRepository<T>
     {

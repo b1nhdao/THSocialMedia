@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http;
 
-namespace THSocialMedia.Api.Extensions.Models;
+namespace THSocialMedia.Presentation.Extensions.Models;
 
 public sealed class ApiResponse<TResult> : ApiResponse
 {
@@ -20,6 +21,7 @@ public sealed class ApiResponse<TResult> : ApiResponse
     }
 
     public TResult Result { get; private init; }
+    public TResult Data => Result;
 
     public static ApiResponse<TResult> Ok(TResult result) =>
         new() { Success = true, StatusCode = StatusCodes.Status200OK, Result = result };

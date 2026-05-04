@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using THSocialMedia.Application.Services;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Queries;
 using THSocialMedia.Application.UsecaseHandlers.Posts.ViewModels;
-using THSocialMedia.Domain.Abstractions.IRepositories;
+using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 using THSocialMedia.Domain.Entities;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
@@ -13,13 +13,13 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
     {
         private readonly IPostWriteRepository _postRepository;
         private readonly ICacheService _cacheService;
-        private readonly IIdentityService _identityService;
+        private readonly IAuthService _identityService;
         private readonly ILogger<GetAllPostsQueryHandler> _logger;
 
         public GetAllPostsQueryHandler(
             IPostWriteRepository postRepository,
             ICacheService cacheService,
-            IIdentityService identityService,
+            IAuthService identityService,
             ILogger<GetAllPostsQueryHandler> logger)
         {
             _postRepository = postRepository;

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using THSocialMedia.Application.Services;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Commands;
 using THSocialMedia.Domain.Abstractions;
-using THSocialMedia.Domain.Abstractions.IRepositories;
+using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 using THSocialMedia.Domain.Events;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers;
@@ -13,14 +13,14 @@ namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers;
 public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand, Result<bool>>
 {
     private readonly IPostWriteRepository _postRepository;
-    private readonly IIdentityService _identityService;
+    private readonly IAuthService _identityService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IEventBus _eventBus;
     private readonly ILogger<DeleteCommentCommandHandler> _logger;
 
     public DeleteCommentCommandHandler(
         IPostWriteRepository postRepository,
-        IIdentityService identityService,
+        IAuthService identityService,
         IUnitOfWork unitOfWork,
         IEventBus eventBus,
         ILogger<DeleteCommentCommandHandler> logger)

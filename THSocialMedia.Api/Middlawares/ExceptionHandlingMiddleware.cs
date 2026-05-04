@@ -3,7 +3,7 @@ using Ardalis.Result;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace THSocialMedia.Api.Middlawares;
+namespace THSocialMedia.Presentation.Middlawares;
 
 public class ExceptionHandlingMiddleware
 {

@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using THSocialMedia.Application.UsecaseHandlers.Posts.Queries;
 using THSocialMedia.Application.UsecaseHandlers.Posts.ViewModels;
-using THSocialMedia.Domain.Abstractions.IRepositories;
+using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 
 namespace THSocialMedia.Application.UsecaseHandlers.Posts.Handlers
 {

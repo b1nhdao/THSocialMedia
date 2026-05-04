@@ -174,6 +174,139 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("THSocialMedia.Domain.Entities.Proposal", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AnalysisVersion")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("ProposalId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Proposals");
+                });
+
+            modelBuilder.Entity("THSocialMedia.Domain.Entities.ProposalDetail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("DetailId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ProposalEntityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProposalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ValueJson")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProposalId");
+
+                    b.ToTable("ProposalDetails");
+                });
+
+            modelBuilder.Entity("THSocialMedia.Domain.Entities.ProposalHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ChangeDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ChangedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ChangedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("HistoryId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("ManagerRationale")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ProposalEntityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ProposalId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ProposalId1")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProposalId1");
+
+                    b.ToTable("ProposalHistories");
+                });
+
             modelBuilder.Entity("THSocialMedia.Domain.Entities.Reaction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -279,6 +412,56 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ReactionPosts");
+                });
+
+            modelBuilder.Entity("THSocialMedia.Domain.Entities.Recommendation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ActionItems")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("ProposalEntityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProposalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RecommendationId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProposalId");
+
+                    b.ToTable("Recommendations");
                 });
 
             modelBuilder.Entity("THSocialMedia.Domain.Entities.Relationship", b =>
@@ -537,6 +720,83 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("THSocialMedia.Domain.Entities.Proposal", b =>
+                {
+                    b.OwnsOne("THSocialMedia.Domain.Entities.AnalysisSummary", "Summary", b1 =>
+                        {
+                            b1.Property<Guid>("ProposalId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateTime>("AnalysisEndDate")
+                                .HasColumnType("timestamp with time zone");
+
+                            b1.Property<DateTime>("AnalysisStartDate")
+                                .HasColumnType("timestamp with time zone");
+
+                            b1.Property<double>("AverageCommentPerPost")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("AverageEngagementRate")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("AverageReactionPerPost")
+                                .HasColumnType("double precision");
+
+                            b1.Property<double>("CommunityHealthScore")
+                                .HasColumnType("double precision");
+
+                            b1.Property<int>("ProblematicCommentsCount")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("ProblematicPostsCount")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("TotalCommentsAnalyzed")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("TotalPostsAnalyzed")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("TotalReactionsAnalyzed")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("TotalReportsAnalyzed")
+                                .HasColumnType("integer");
+
+                            b1.HasKey("ProposalId");
+
+                            b1.ToTable("Proposals");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ProposalId");
+                        });
+
+                    b.Navigation("Summary")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("THSocialMedia.Domain.Entities.ProposalDetail", b =>
+                {
+                    b.HasOne("THSocialMedia.Domain.Entities.Proposal", "Proposal")
+                        .WithMany("Details")
+                        .HasForeignKey("ProposalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Proposal");
+                });
+
+            modelBuilder.Entity("THSocialMedia.Domain.Entities.ProposalHistory", b =>
+                {
+                    b.HasOne("THSocialMedia.Domain.Entities.Proposal", "Proposal")
+                        .WithMany()
+                        .HasForeignKey("ProposalId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Proposal");
+                });
+
             modelBuilder.Entity("THSocialMedia.Domain.Entities.ReactionPost", b =>
                 {
                     b.HasOne("THSocialMedia.Domain.Entities.Post", "Post")
@@ -564,6 +824,17 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("THSocialMedia.Domain.Entities.Recommendation", b =>
+                {
+                    b.HasOne("THSocialMedia.Domain.Entities.Proposal", "Proposal")
+                        .WithMany("Recommendations")
+                        .HasForeignKey("ProposalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Proposal");
+                });
+
             modelBuilder.Entity("THSocialMedia.Domain.Entities.Conversation", b =>
                 {
                     b.Navigation("Members");
@@ -576,6 +847,13 @@ namespace THSocialMedia.Infrastructure.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Reactions");
+                });
+
+            modelBuilder.Entity("THSocialMedia.Domain.Entities.Proposal", b =>
+                {
+                    b.Navigation("Details");
+
+                    b.Navigation("Recommendations");
                 });
 
             modelBuilder.Entity("THSocialMedia.Domain.Entities.User", b =>

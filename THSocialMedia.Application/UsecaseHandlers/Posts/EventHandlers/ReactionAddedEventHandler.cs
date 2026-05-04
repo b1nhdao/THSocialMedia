@@ -2,19 +2,19 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using THSocialMedia.Domain.Abstractions.IReadRepositories;
 using THSocialMedia.Domain.Abstractions.IReadRepositories.ReadModels;
-using THSocialMedia.Domain.Abstractions.IRepositories;
+using THSocialMedia.Domain.Abstractions.IWriteRepositories;
 using THSocialMedia.Domain.Events;
 
-namespace THSocialMedia.Infrastructure.EventHandlers
+namespace THSocialMedia.Application.UsecaseHandlers.Posts.EventHandlers
 {
     public class ReactionAddedEventHandler : INotificationHandler<ReactionAddedEvent>
     {
-        private readonly IPostReadRepository _postReadRepository;
+        private readonly IBasePostReadRepository _postReadRepository;
         private readonly IUserRepository _userRepository;
         private readonly ILogger<ReactionAddedEventHandler> _logger;
 
         public ReactionAddedEventHandler(
-            IPostReadRepository postReadRepository,
+            IBasePostReadRepository postReadRepository,
             IUserRepository userRepository,
             ILogger<ReactionAddedEventHandler> logger)
         {
@@ -27,7 +27,7 @@ namespace THSocialMedia.Infrastructure.EventHandlers
         {
             try
             {
-                var post = await _postReadRepository.GetPostByIdAsync(notification.PostId, cancellationToken);
+                var post = await _postReadRepository.GetByIdAsync(notification.PostId, cancellationToken);
                 if (post == null)
                 {
                     _logger.LogWarning("Post {PostId} not found when adding reaction", notification.PostId);
@@ -50,7 +50,7 @@ namespace THSocialMedia.Infrastructure.EventHandlers
                 post.ReactionsCount = post.Reactions.Count;
                 post.UpdatedAt = DateTime.UtcNow;
 
-                await _postReadRepository.UpdatePostAsync(notification.PostId, post, cancellationToken);
+                await _postReadRepository.UpdateAsync(notification.PostId, post, cancellationToken);
                 _logger.LogInformation("Reaction added to post {PostId} in MongoDB. Total reactions: {ReactionCount}", 
                     notification.PostId, post.ReactionsCount);
             }
