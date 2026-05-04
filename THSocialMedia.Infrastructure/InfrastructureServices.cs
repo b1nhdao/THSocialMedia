@@ -67,6 +67,8 @@ namespace THSocialMedia.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IConversationRepository, ConversationRepository>();
             services.AddScoped<IRelationshipRepository, RelationshipRepository>();
+            services.AddScoped<IProposalRepository, ProposalRepository>();
+            services.AddScoped<IProposalHistoryRepository, ProposalHistoryRepository>();
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<WriteDbContext>());
             services.AddScoped<ICacheService, CacheService>();
             services.AddScoped<IStorageService, StorageService>();
